@@ -1,3 +1,4 @@
+// Modal.tsx (한글 IME 정상 입력용 수정)
 import React, { useRef, useId, useEffect } from 'react'
 
 export interface ModalProps {
@@ -5,15 +6,14 @@ export interface ModalProps {
   isOpen: boolean
   /** 모달 닫기 이벤트 */
   onClose: () => void
-  /** 모달 안에 들어갈 컨텐츠 (HTML 권고) */
+  /** 모달 안에 들어갈 컨텐츠 */
   children: string | React.ReactNode
   /** 모달 제목 */
-  label?: string | undefined
+  label?: string
   /** 모달 크기 */
   size?: 'x-small' | 'small' | 'medium' | 'large' | 'x-large'
 }
 
-/** Modal UI 컴포넌트 */
 export const Modal = ({
   isOpen,
   onClose,
@@ -25,37 +25,49 @@ export const Modal = ({
   const lastFocusedElement = useRef<HTMLElement | null>(null)
   const reactId = useId()
   const labelId = `modal_label_${reactId}`
+  const originalOverflow = useRef<string>('')
 
   useEffect(() => {
-    if (!isOpen || !modalRef.current) return
+    if (!isOpen) {
+      // 모달이 닫힐 때 포커스 복원
+      lastFocusedElement.current?.focus()
+      return
+    }
 
+    if (!modalRef.current) return
+
+    // 현재 포커스된 요소 저장 (모달 닫을 때 복귀용)
     lastFocusedElement.current = document.activeElement as HTMLElement
-    const originalOverflow = document.body.style.overflow
+
+    // 모달 열릴 때 body 스크롤 방지
+    originalOverflow.current = document.body.style.overflow
     document.body.style.overflow = 'hidden'
 
+    // 모달 내부 focusable 요소 찾기
     const focusableEls = modalRef.current.querySelectorAll<HTMLElement>(
-      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
     )
 
-    const focusableArray = [modalRef.current, ...Array.from(focusableEls)]
-    const firstEl = focusableArray[0]
-    const lastEl = focusableArray[focusableArray.length - 1]
+    const firstEl = focusableEls[0]
+    const lastEl = focusableEls[focusableEls.length - 1]
 
-    requestAnimationFrame(() => {
-      firstEl.focus()
-    })
+    // modalRef.current.focus({ preventScroll: true })
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Tab') {
+        if (focusableEls.length === 0) {
+          e.preventDefault()
+          return
+        }
         if (e.shiftKey) {
           if (document.activeElement === firstEl) {
             e.preventDefault()
-            lastEl.focus()
+            lastEl?.focus()
           }
         } else {
           if (document.activeElement === lastEl) {
             e.preventDefault()
-            firstEl.focus()
+            firstEl?.focus()
           }
         }
       } else if (e.key === 'Escape') {
@@ -67,8 +79,7 @@ export const Modal = ({
     document.addEventListener('keydown', handleKeyDown)
     return () => {
       document.removeEventListener('keydown', handleKeyDown)
-      lastFocusedElement.current?.focus()
-      document.body.style.overflow = originalOverflow
+      document.body.style.overflow = originalOverflow.current
     }
   }, [isOpen, onClose])
 
@@ -79,10 +90,10 @@ export const Modal = ({
       <div
         className={`modal-content ${size}`}
         ref={modalRef}
-        tabIndex={0}
         onClick={(e) => e.stopPropagation()}
         role="dialog"
         aria-modal="true"
+        tabIndex={-1}
         aria-labelledby={label ? labelId : undefined}
       >
         {label && (
@@ -91,8 +102,13 @@ export const Modal = ({
           </div>
         )}
         <div className="modal-body">{children}</div>
-        <button onClick={onClose} className="modal-close">
-          <span className="sr-only">닫기</span>
+        <button
+          onClick={onClose}
+          className="modal-close"
+          aria-label="모달 닫기"
+          type="button"
+        >
+          ×
         </button>
       </div>
     </div>

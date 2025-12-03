@@ -33,7 +33,6 @@ import { Input } from '@/components/Form/Input'
 export default function TestPage() {
   const { viewport } = useViewport()
 
-  const [isOpen, setIsOpen] = useState(false)
   const [alertOpen, setAlertOpen] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [showToast, setShowToast] = useState(false)
@@ -46,8 +45,6 @@ export default function TestPage() {
   // Input 컴포넌트들 상태 관리 추가
   const [inputValue, setInputValue] = useState('') // 기본 Input 상태
   const [inputEmail, setInputEmail] = useState('') // 이메일용
-  const [modalName, setModalName] = useState('') // Modal 내 name
-  const [modalEmail, setModalEmail] = useState('') // Modal 내 email
   const [inputPassword, setInputPassword] = useState('')
   const [inputNumber, setInputNumber] = useState('')
   const [inputTextDisabled, setInputTextDisabled] = useState('수정 불가')
@@ -93,6 +90,39 @@ export default function TestPage() {
     },
   ]
 
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [errors, setErrors] = useState({ name: '', email: '' })
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+
+    const newErrors = { name: '', email: '' }
+
+    if (!name) {
+      newErrors.name = '이름을 입력해주세요'
+    }
+
+    if (!email) {
+      newErrors.email = '이메일을 입력해주세요'
+    } else if (!/\S+@\S+\.\S+/.test(email)) {
+      newErrors.email = '올바른 이메일 형식이 아닙니다'
+    }
+
+    setErrors(newErrors)
+
+    if (!newErrors.name && !newErrors.email) {
+      console.log('제출 성공!', { name, email })
+      setIsModalOpen(false)
+      resetForm()
+    }
+  }
+  const resetForm = () => {
+    setName('')
+    setEmail('')
+    setErrors({ name: '', email: '' })
+  }
+
   const items = [
     {
       title: 'Button Component',
@@ -112,31 +142,35 @@ export default function TestPage() {
       title: 'Modal, SystemAlert, Toast Components',
       content: (
         <section className={`${styles.sectionRow} ${styles.modalSection}`}>
-          <Button label="모달 열기" onClick={() => setIsOpen(true)} />
+          <Button label="모달 열기" onClick={() => setIsModalOpen(true)} />
           <Modal
-            isOpen={isOpen}
-            onClose={() => setIsOpen(false)}
+            isOpen={isModalOpen}
+            onClose={() => {
+              resetForm()
+              setIsModalOpen(false)
+            }}
             label="프로필 설정"
+            size="medium"
           >
-            <form className={styles.modalForm}>
-              <label>
-                이름:
-                <Input
-                  type="text"
-                  placeholder="홍길동"
-                  value={modalName}
-                  onChange={(e) => setModalName(e.target.value)}
-                />
-              </label>
-              <label>
-                이메일:
-                <Input
-                  type="email"
-                  placeholder="example@email.com"
-                  value={modalEmail}
-                  onChange={(e) => setModalEmail(e.target.value)}
-                />
-              </label>
+            <form onSubmit={handleSubmit} className={styles.modalForm}>
+              <Input
+                label="이름"
+                type="text"
+                placeholder="홍길동"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                error={errors.name}
+              />
+
+              <Input
+                label="이메일"
+                type="email"
+                placeholder="example@email.com"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={errors.email}
+              />
+
               <button type="submit">저장</button>
             </form>
           </Modal>

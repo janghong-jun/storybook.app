@@ -87,20 +87,7 @@
     color: var(--color-foreground);
   }
 
-  input {
-    padding: var(--space-sm) var(--space-md);
-    border: 0.1rem solid var(--color-border);
-    border-radius: var(--radius-md);
-    font-size: var(--text-base);
-    transition: border-color 0.2s ease;
-
-    &:focus {
-      border-color: var(--color-primary);
-      box-shadow: 0 0 0 0.3rem rgba(var(--color-primary-rgb), 0.1);
-    }
-  }
-
-  button {
+  button[type='submit'] {
     padding: var(--space-sm) var(--space-lg);
     border: none;
     border-radius: var(--radius-md);
@@ -110,10 +97,6 @@
     color: white;
     cursor: pointer;
     transition: background-color 0.2s ease;
-
-    &:hover {
-      background: var(--color-primary-dark);
-    }
   }
 }
 
