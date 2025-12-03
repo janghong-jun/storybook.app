@@ -1,4 +1,6 @@
 export interface ButtonProps {
+  /** 버튼의 고유 ID */
+  id?: string
   /** 버튼에 표시할 텍스트 */
   label: string
   /** 페이지에서 가장 중요한 액션 버튼인지 여부 */
@@ -22,6 +24,7 @@ export const Button = ({
   label,
   level = 'primary',
   size = 'medium',
+  id,
   className,
   backgroundColor,
   disabled = false,
@@ -34,6 +37,7 @@ export const Button = ({
   return (
     <button
       type="button"
+      id={id}
       {...(classes.length ? { className: classes.join(' ') } : {})}
       {...(backgroundColor ? { style: { backgroundColor } } : {})}
       aria-label={ariaLabel === false ? undefined : ariaLabel}
