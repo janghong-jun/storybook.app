@@ -1,0 +1,106 @@
+.wrapper {
+  padding: 2.4rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 700;
+  margin-bottom: 1.6rem;
+}
+
+.tablewrap {
+  overflow-x: auto;
+  max-height: 100rem;
+}
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  border-spacing: 0;
+  border: 0.1rem solid #ddd;
+  font-size: 1.3rem;
+
+  th,
+  td {
+    border: 0.1rem solid #ddd;
+    padding: 0.8rem 1.2rem;
+    text-align: left;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    &.center {
+      text-align: center;
+    }
+    &.important {
+      font-weight: 700;
+    }
+  }
+
+  thead {
+    position: sticky;
+    top: 0;
+    background-color: #f9f9f9;
+    th {
+      font-weight: 700;
+      color: #333;
+      text-align: center;
+    }
+  }
+
+  tbody tr:hover {
+    background-color: #f6f6f6;
+  }
+
+  a.link {
+    font-weight: 500;
+  }
+}
+
+.status {
+  display: inline-block;
+  padding: 0.2rem 0.8rem;
+  border-radius: 1.2rem;
+  font-weight: 700;
+  font-size: 1.3rem;
+  text-align: center;
+}
+
+.status_progress {
+  background-color: #e0f3ff;
+  color: #0077cc;
+}
+
+.status_waiting {
+  background-color: #f0f0f0;
+  color: #999;
+}
+
+.status_done {
+  background-color: #e1f7e7;
+  color: #219653;
+}
+
+tr.end {
+  background-color: #eef3ff;
+}
+
+.noteList {
+  li {
+    display: grid;
+    gap: 0.8rem;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    font-size: 1.2rem;
+    strong {
+      color: #555;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+    p {
+      color: #000;
+      line-height: 1.4;
+    }
+
+    & + li {
+      margin-top: 0.4rem;
+    }
+  }
+}
