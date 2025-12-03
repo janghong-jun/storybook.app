@@ -1,0 +1,69 @@
+{
+  "name": "hicoaching",
+  "description": "하이코칭은 디자인 일관성과 개발 생산성을 모두 추구하는 모던 UI 컴포넌트 라이브러리입니다. Next.js·React 기반, SCSS와 Storybook으로 설계되어, 프로젝트에 잘 어울리는 세련된 UI를 빠르게 제공합니다.",
+  "homepage": "https://github.com/janghongjoon/hicoaching",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/janghongjoon/hicoaching.git"
+  },
+  "keywords": [
+    "hi-coaching",
+    "하이코칭",
+    "ui",
+    "storybook",
+    "component",
+    "react",
+    "nextjs",
+    "scss"
+  ],
+  "license": "MIT",
+  "author": "장홍준 <kbhj0729@gmail.com> (https://github.com/janghong-jun)",
+  "contributors": [
+    "장홍준 (creator)"
+  ],
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "d": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "s": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21",
+    "next": "16.0.0",
+    "react": "19.2.0",
+    "react-datepicker": "^8.9.0",
+    "react-dom": "19.2.0",
+    "sass": "^1.93.2",
+    "swiper": "^12.0.3"
+  },
+  "devDependencies": {
+    "@chromatic-com/storybook": "^4.1.3",
+    "@storybook/addon-a11y": "^10.1.2",
+    "@storybook/addon-docs": "^10.1.2",
+    "@storybook/addon-links": "^10.1.2",
+    "@storybook/addon-vitest": "^10.1.2",
+    "@storybook/nextjs-vite": "^10.1.2",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "@vitest/browser-playwright": "^4.0.7",
+    "@vitest/coverage-v8": "4.0.7",
+    "baseline-browser-mapping": "^2.8.32",
+    "concurrently": "^9.2.1",
+    "cross-env": "^10.1.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.0",
+    "eslint-plugin-storybook": "^10.1.2",
+    "playwright": "^1.56.1",
+    "storybook": "^10.1.2",
+    "tailwindcss": "^4",
+    "typescript": "^5",
+    "vite-plugin-compression": "^0.5.1",
+    "vitest": "^4.0.7"
+  }
+}
