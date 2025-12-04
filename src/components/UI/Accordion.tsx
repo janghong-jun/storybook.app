@@ -127,7 +127,7 @@ export const Accordion: React.FC<AccordionProps> = ({
                 className="accordion-content"
                 {...(!isOpen ? { inert: true } : {})} // 지원 브라우저에 inert 적용
               >
-                {item.content}
+                <div className="accordion-inner">{item.content}</div>
               </div>
             </div>
           )

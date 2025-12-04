@@ -18,6 +18,13 @@ export interface BoardListProps {
 }
 
 export const BoardList = ({ items = [] }: BoardListProps) => {
+  if (!items || items.length === 0) {
+    return (
+      <div className="board-list__empty" role="status">
+        게시글이 없습니다.
+      </div>
+    )
+  }
   return (
     <ul className="board-list">
       {items.map((item, index) => {

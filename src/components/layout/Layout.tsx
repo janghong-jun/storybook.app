@@ -1,6 +1,6 @@
 import { ReactNode, useState, useEffect } from 'react'
 import Head from 'next/head'
-import SkipToContent from '@/components/common/SkipToContent'
+import SkipToContent from '@/components/common/SkipToContent/SkipToContent'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 

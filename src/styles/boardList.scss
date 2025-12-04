@@ -41,4 +41,10 @@
       color: #666;
     }
   }
+  &__empty {
+    padding: var(--space-md);
+    color: var(--color-text-secondary);
+    text-align: center;
+    font-size: var(--text-base);
+  }
 }

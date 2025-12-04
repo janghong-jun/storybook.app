@@ -29,6 +29,14 @@ export const CardList = ({
     .filter(Boolean)
     .join(' ')
 
+  if (!cards || cards.length === 0) {
+    return (
+      <div className="card-list__empty" role="status">
+        데이터가 없습니다.
+      </div>
+    )
+  }
+
   return (
     <ul className={rootClass} data-columns={columns} data-gap={gap}>
       {cards.map((card, idx) => (

@@ -89,3 +89,11 @@ export const WideGap: Story = {
     gap: 40,
   },
 }
+
+export const NoData: Story = {
+  args: {
+    cards: [],
+    columns: 3,
+    gap: 24,
+  },
+}

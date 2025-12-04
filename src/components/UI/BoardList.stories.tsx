@@ -28,3 +28,9 @@ export const Default: Story = {
     items: sampleItems,
   },
 }
+
+export const NoData: Story = {
+  args: {
+    items: [],
+  },
+}
