@@ -96,5 +96,6 @@
 .accordion-controls {
   display: flex;
   width: 100%;
+  margin-bottom: var(--space-md);
   justify-content: flex-end;
 }

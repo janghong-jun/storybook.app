@@ -2,6 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { ViewportProvider } from '@/contexts/viewPortContext'
+import { Loading } from '@/components/common/Loading'
 import '@/styles/globals.scss'
 import '@/styles/fonts/pretendard-gov.css'
 import 'swiper/css'
@@ -19,6 +20,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <ViewportProvider>{children}</ViewportProvider>
+        <Loading />
       </body>
     </html>
   )

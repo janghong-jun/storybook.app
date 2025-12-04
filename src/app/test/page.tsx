@@ -6,6 +6,7 @@ import React from 'react'
 import styles from './pages.module.scss'
 import { useState } from 'react'
 import { useViewport } from '@/contexts/viewPortContext'
+import { useLoadingStore } from '@/stores/loadingStore'
 
 import { Button } from '@/components/UI/Button'
 import { Accordion } from '@/components/UI/Accordion'
@@ -90,6 +91,16 @@ export default function TestPage() {
     },
   ]
 
+  const { show, hide } = useLoadingStore()
+
+  const handleClick = async () => {
+    show()
+
+    await new Promise((r) => setTimeout(r, 1500)) // 예시 딜레이
+
+    hide()
+  }
+
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [errors, setErrors] = useState({ name: '', email: '' })
@@ -131,7 +142,9 @@ export default function TestPage() {
           <Button
             label="primary 버튼"
             level="primary"
-            onClick={() => alert('클릭!')}
+            onClick={() => {
+              handleClick()
+            }}
           />
           <Button label="secondary" level="secondary" />
           <Button label="tertiary" level="tertiary" />
@@ -650,7 +663,7 @@ export default function TestPage() {
       <div className={styles.demoPage}>
         <h1>UI 컴포넌트 테스트</h1>
 
-        <section className={styles.section}>
+        <div className={styles.section}>
           <Accordion
             items={items}
             allowMultipleOpen
@@ -658,7 +671,7 @@ export default function TestPage() {
             showToggleAll
             className={styles.accordionTest}
           />
-        </section>
+        </div>
       </div>
     </DefaultLayout>
   )

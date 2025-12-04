@@ -15,15 +15,7 @@ const preview: Preview = {
       storySort: {
         order: [
           'Guide',
-          'Form',
-          [
-            'Input',
-            'Checkbox',
-            'Switch',
-            'RadioGroup',
-            'TextArea',
-            'SelectBox',
-          ],
+          'Common',
           'UI',
           [
             'Accordion',
@@ -41,6 +33,15 @@ const preview: Preview = {
             'Table',
             'Toast',
             'Tooltip',
+          ],
+          'Form',
+          [
+            'Input',
+            'Checkbox',
+            'Switch',
+            'RadioGroup',
+            'TextArea',
+            'SelectBox',
           ],
         ],
       },
