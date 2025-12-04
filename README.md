@@ -24,7 +24,7 @@ src/
 │   ├── Form/            # 폼 관련 컴포넌트 (Input, Checkbox, SelectBox 등)
 │   ├── layout/          # 레이아웃 래퍼 컴포넌트
 │   └── common/          # 공유 유틸리티 (SkipToContent 등)
-├── pages/               # Next.js 페이지 (Pages Router 패턴)
+├── app/                 # Next.js 페이지 (app Router 패턴)
 ├── contexts/            # React 컨텍스트 (ViewportProvider 등)
 ├── styles/              # 글로벌 SCSS 스타일 (컴포넌트별로 정렬됨)
 └── data/                # 정적 데이터 파일
