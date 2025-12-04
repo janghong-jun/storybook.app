@@ -65,7 +65,7 @@ export const Input: React.FC<InputProps> = ({
   const [showError, setShowError] = useState(!!error)
 
   // 한글 입력(IME) 조합 중인지 추적
-  const [isComposing, setIsComposing] = useState(false)
+  const [, setIsComposing] = useState(false)
 
   /**
    * error prop이 변경되면 에러 표시 상태 업데이트

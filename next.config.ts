@@ -1,4 +1,5 @@
 import type { NextConfig } from 'next'
+import path from 'path'
 
 const nextConfig: NextConfig = {
   /* config options here */
@@ -12,6 +13,9 @@ const nextConfig: NextConfig = {
         pathname: '/**', // 모든 경로 허용
       },
     ],
+  },
+  sassOptions: {
+    includePaths: [path.join(process.cwd(), 'src/styles')],
   },
 }
 
