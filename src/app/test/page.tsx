@@ -53,6 +53,13 @@ export default function TestPage() {
   const [inputLabelHidden, setInputLabelHidden] = useState('')
   const [inputCheckValue, setInputCheckValue] = useState('')
   const [inputCheckError, setInputCheckError] = useState('')
+  
+
+  const [name, setName] = useState('')
+  const [email, setEmail] = useState('')
+  const [errors, setErrors] = useState({ name: '', email: '' })
+  const [isModalOpen, setIsModalOpen] = useState(false)
+
   const mockData = [
     {
       title: '클린한 UI 구성 가이드',
@@ -92,7 +99,6 @@ export default function TestPage() {
   ]
 
   const { show, hide } = useLoadingStore()
-
   const handleClick = async () => {
     show()
 
@@ -100,11 +106,6 @@ export default function TestPage() {
 
     hide()
   }
-
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [errors, setErrors] = useState({ name: '', email: '' })
-  const [isModalOpen, setIsModalOpen] = useState(false)
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
 
