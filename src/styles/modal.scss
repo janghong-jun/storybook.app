@@ -1,13 +1,21 @@
 .modal-backdrop {
   position: fixed;
   inset: 0;
-  z-index: 9999;
+  z-index: 9999; // 기본값, JS에서 동적으로 변경 가능
   padding: var(--space-md);
-  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   align-items: center;
   justify-content: center;
   animation: fadeIn 0.2s ease forwards;
+
+  // 기본적으로 백드랍 색상 없음
+  background-color: transparent;
+
+  // 최상위 모달에만 백드랍 색상 적용
+  &[data-top-modal='true'] {
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(0.2rem);
+  }
 }
 
 .modal-content {

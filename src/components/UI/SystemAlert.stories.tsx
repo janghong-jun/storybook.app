@@ -7,26 +7,8 @@ import { Button } from '@/components/UI/Button'
 const meta: Meta<SystemAlertProps> = {
   title: 'UI/SystemAlert',
   component: SystemAlert,
-  parameters: { layout: 'fullscreen' },
+  parameters: { layout: 'centered' },
   tags: ['autodocs'],
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          display: 'flex',
-          position: 'relative',
-          minWidth: '100%',
-          minHeight: '30rem',
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}
-      >
-        <div style={{ margin: 'auto' }}>
-          <Story />
-        </div>
-      </div>
-    ),
-  ],
   argTypes: {
     title: {
       control: 'text',

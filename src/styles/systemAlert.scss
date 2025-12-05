@@ -1,13 +1,20 @@
 .alert-backdrop {
   position: fixed;
   inset: 0;
-  background-color: rgba(15, 23, 42, 0.75);
-  backdrop-filter: blur(0.8rem);
   display: flex;
   justify-content: center;
   align-items: center;
   padding: var(--space-xl);
-  z-index: 9999;
+  z-index: 9999; // 기본값, JS에서 동적으로 변경 가능
+
+  // 기본적으로 백드랍 색상 없음
+  background-color: transparent;
+  backdrop-filter: none;
+
+  // 최상위 얼랏에만 백드랍 색상 적용
+  &[data-top-modal='true'] {
+    background-color: rgba(0, 0, 0, 0.5);
+  }
 }
 
 .alert {

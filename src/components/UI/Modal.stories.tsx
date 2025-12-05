@@ -7,7 +7,7 @@ const meta: Meta<ModalProps> = {
   title: 'UI/Modal',
   component: Modal,
   parameters: {
-    layout: 'fullscreen',
+    layout: 'centered',
   },
   tags: ['autodocs'],
   argTypes: {
@@ -18,24 +18,6 @@ const meta: Meta<ModalProps> = {
     },
     isOpen: { control: false },
   },
-  decorators: [
-    (Story) => (
-      <div
-        style={{
-          display: 'flex',
-          position: 'relative',
-          minWidth: '100%',
-          minHeight: '30rem',
-          justifyContent: 'center',
-          alignContent: 'center',
-        }}
-      >
-        <div style={{ margin: 'auto' }}>
-          <Story />
-        </div>
-      </div>
-    ),
-  ],
 }
 
 export default meta
@@ -62,7 +44,6 @@ export const Default: Story = {
     isOpen: false,
   },
 }
-
 export const NoHeader: Story = {
   render: ModalIndependentTemplate,
   args: {

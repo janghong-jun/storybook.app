@@ -53,7 +53,6 @@ export default function TestPage() {
   const [inputLabelHidden, setInputLabelHidden] = useState('')
   const [inputCheckValue, setInputCheckValue] = useState('')
   const [inputCheckError, setInputCheckError] = useState('')
-  
 
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -199,6 +198,7 @@ export default function TestPage() {
             visible={confirmOpen}
             message="이 동작은 되돌릴 수 없습니다."
             title={'false'}
+            onClose={() => setConfirmOpen(false)}
             hasConfirm={true}
             hasCancel={true}
             confirmLabel="삭제"

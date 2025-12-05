@@ -1,44 +1,26 @@
 import React, { useRef, useId, useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import { useModalStack } from '@/hooks/useModalStack'
+import { focusManager } from '@/stores/focusStore'
 
 export interface AlertButton {
-  /** 버튼 표시 텍스트 */
   label: string
-  /** 버튼 스타일: primary(주요) | secondary(보조) */
   variant?: 'primary' | 'secondary'
-  /** 버튼 클릭 시 실행할 콜백 */
   onClick?: () => void
 }
 
 export interface SystemAlertProps {
-  /** 알림 메시지 (문자열 또는 React 노드) */
   message: string | React.ReactNode
-  /** 제목
-   * - "" 또는 false일 경우 제목 숨김
-   */
   title?: string | false
-  /** 알림 타입에 따른 스타일 */
   type?: 'info' | 'success' | 'warning' | 'error'
-  /** 표시 여부 */
   visible?: boolean
-  /** 닫기 이벤트 */
   onClose?: () => void
-
-  /** 확인 버튼 표시 여부 (Alert/Confirm 기본 버튼 사용 시) */
   hasConfirm?: boolean
-  /** 취소 버튼 표시 여부 (Alert/Confirm 기본 버튼 사용 시) */
   hasCancel?: boolean
-  /** 확인 버튼 텍스트 */
   confirmLabel?: string
-  /** 취소 버튼 텍스트 */
   cancelLabel?: string
-  /** 확인 버튼 클릭 콜백 */
   onConfirm?: () => void
-  /** 취소 버튼 클릭 콜백 */
   onCancel?: () => void
-
-  /** 커스텀 버튼 배열
-   * - Alert/Confirm 기본 버튼 대신 사용
-   */
   buttons?: AlertButton[]
 }
 
@@ -48,70 +30,78 @@ export const SystemAlert: React.FC<SystemAlertProps> = ({
   type = 'info',
   visible = false,
   onClose,
-
   hasConfirm = true,
   hasCancel = false,
   confirmLabel = '확인',
   cancelLabel = '취소',
   onConfirm,
   onCancel,
-
   buttons,
 }) => {
   const alertRef = useRef<HTMLDivElement>(null)
-  const lastFocused = useRef<HTMLElement | null>(null)
   const reactId = useId()
   const titleId = `alert_title_${reactId}`
+  const alertId = `alert_${reactId}`
 
-  /** ------------------------------------------------------------------
-   *  포커스 트랩 + ESC 닫기 + 스크롤 막기
-   *  ------------------------------------------------------------------ */
+  // 얼랏 스택 관리
+  const { isTopModal, zIndex } = useModalStack(alertId, visible || false)
+
   useEffect(() => {
-    if (!visible || !alertRef.current) return
+    const wrapElement = document.querySelector('.wrap') as HTMLElement | null
 
-    lastFocused.current = document.activeElement as HTMLElement
-    document.body.style.overflow = 'hidden'
+    if (visible) {
+      focusManager.push()
 
-    const focusableEls = alertRef.current.querySelectorAll<HTMLElement>(
-      'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
-    )
-    const focusableArray = [alertRef.current, ...Array.from(focusableEls)]
-    const firstEl = focusableArray[0]
-    const lastEl = focusableArray[focusableArray.length - 1]
+      // 2. body 스크롤 방지 및 aria-hidden 설정
+      document.body.style.overflow = 'hidden'
+      wrapElement?.setAttribute('aria-hidden', 'true')
 
-    requestAnimationFrame(() => alertRef.current?.focus())
+      // 3. 얼럿으로 포커스 이동
+      requestAnimationFrame(() => alertRef.current?.focus())
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Tab') {
-        if (e.shiftKey) {
-          if (document.activeElement === firstEl) {
-            e.preventDefault()
-            lastEl.focus()
+      const focusableEls = alertRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
+      )
+      if (!alertRef.current || !focusableEls) return
+
+      const focusableArray = [alertRef.current, ...Array.from(focusableEls)]
+      const firstEl = focusableArray[0]
+      const lastEl = focusableArray[focusableArray.length - 1]
+
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Tab') {
+          if (e.shiftKey) {
+            if (document.activeElement === firstEl) {
+              e.preventDefault()
+              lastEl.focus()
+            }
+          } else {
+            if (document.activeElement === lastEl) {
+              e.preventDefault()
+              firstEl.focus()
+            }
           }
-        } else {
-          if (document.activeElement === lastEl) {
+        } else if (e.key === 'Escape') {
+          if (isTopModal) {
             e.preventDefault()
-            firstEl.focus()
+            onClose?.()
           }
         }
       }
+
+      document.addEventListener('keydown', handleKeyDown)
+
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown)
+        document.body.style.overflow = ''
+        wrapElement?.removeAttribute('aria-hidden')
+        focusManager.popAndFocus()
+      }
     }
+  }, [visible, onClose, isTopModal])
 
-    document.addEventListener('keydown', handleKeyDown)
-
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      lastFocused.current?.focus()
-      document.body.style.overflow = ''
-    }
-  }, [visible, onClose])
-
-  /** ------------------------------------------------------------------
-   * 렌더링 제어
-   * ------------------------------------------------------------------ */
   if (!visible) return null
 
-  /** 기본 버튼 구성 (buttons가 없을 때만) */
   const renderDefaultButtons = () => (
     <>
       {hasCancel && (
@@ -137,7 +127,6 @@ export const SystemAlert: React.FC<SystemAlertProps> = ({
     </>
   )
 
-  /** 커스텀 버튼 모드 */
   const renderCustomButtons = () =>
     buttons?.map((btn, idx) => (
       <button
@@ -149,8 +138,14 @@ export const SystemAlert: React.FC<SystemAlertProps> = ({
       </button>
     ))
 
-  return (
-    <div className="alert-backdrop" role="presentation">
+  const alertContent = (
+    <div
+      className="alert-backdrop"
+      role="presentation"
+      data-modal-id={alertId}
+      data-top-modal={isTopModal ? 'true' : 'false'}
+      style={{ zIndex }}
+    >
       <div
         ref={alertRef}
         className={`alert alert-${type}`}
@@ -177,4 +172,6 @@ export const SystemAlert: React.FC<SystemAlertProps> = ({
       </div>
     </div>
   )
+
+  return createPortal(alertContent, document.body)
 }

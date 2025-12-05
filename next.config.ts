@@ -17,7 +17,7 @@ const nextConfig: NextConfig = {
     includePaths: [path.join(process.cwd(), 'src/styles')],
   },
   experimental: {
-    optimizePackageImports: [],
+    // optimizePackageImports: [],
   },
 }
 

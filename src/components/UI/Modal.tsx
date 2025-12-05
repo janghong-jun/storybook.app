@@ -1,5 +1,8 @@
-// Modal.tsx (한글 IME 정상 입력용 수정)
+// Modal.tsx
 import React, { useRef, useId, useEffect } from 'react'
+import { createPortal } from 'react-dom'
+import { useModalStack } from '@/hooks/useModalStack'
+import { focusManager } from '@/stores/focusStore'
 
 export interface ModalProps {
   /** 모달 열림 상태 */
@@ -22,71 +25,83 @@ export const Modal = ({
   size = 'medium',
 }: ModalProps) => {
   const modalRef = useRef<HTMLDivElement>(null)
-  const lastFocusedElement = useRef<HTMLElement | null>(null)
   const reactId = useId()
   const labelId = `modal_label_${reactId}`
   const originalOverflow = useRef<string>('')
+  const modalId = `modal_${reactId}`
+
+  // 모달 스택 관리
+  const { isTopModal, zIndex } = useModalStack(modalId, isOpen)
 
   useEffect(() => {
-    if (!isOpen) {
-      // 모달이 닫힐 때 포커스 복원
-      lastFocusedElement.current?.focus()
-      return
-    }
+    const wrapElement = document.querySelector('.wrap') as HTMLElement | null
 
-    if (!modalRef.current) return
+    if (isOpen) {
+      if (!modalRef.current) return
 
-    // 현재 포커스된 요소 저장 (모달 닫을 때 복귀용)
-    lastFocusedElement.current = document.activeElement as HTMLElement
+      focusManager.push()
 
-    // 모달 열릴 때 body 스크롤 방지
-    originalOverflow.current = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+      // 2. body 스크롤 방지 및 aria-hidden 설정
+      originalOverflow.current = document.body.style.overflow
+      document.body.style.overflow = 'hidden'
+      wrapElement?.setAttribute('aria-hidden', 'true')
 
-    // 모달 내부 focusable 요소 찾기
-    const focusableEls = modalRef.current.querySelectorAll<HTMLElement>(
-      'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
-    )
+      // 3. 모달로 포커스 이동
+      modalRef.current.focus()
 
-    const firstEl = focusableEls[0]
-    const lastEl = focusableEls[focusableEls.length - 1]
+      const focusableEls = modalRef.current.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
+      )
 
-    // modalRef.current.focus({ preventScroll: true })
+      const firstEl = focusableEls[0]
+      const lastEl = focusableEls[focusableEls.length - 1]
 
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Tab') {
-        if (focusableEls.length === 0) {
-          e.preventDefault()
-          return
-        }
-        if (e.shiftKey) {
-          if (document.activeElement === firstEl) {
+      const handleKeyDown = (e: KeyboardEvent) => {
+        if (e.key === 'Tab') {
+          if (focusableEls.length === 0) {
             e.preventDefault()
-            lastEl?.focus()
+            return
           }
-        } else {
-          if (document.activeElement === lastEl) {
+          if (e.shiftKey) {
+            if (document.activeElement === firstEl) {
+              e.preventDefault()
+              lastEl?.focus()
+            }
+          } else {
+            if (document.activeElement === lastEl) {
+              e.preventDefault()
+              firstEl?.focus()
+            }
+          }
+        } else if (e.key === 'Escape') {
+          if (isTopModal) {
             e.preventDefault()
-            firstEl?.focus()
+            onClose()
           }
         }
-      } else if (e.key === 'Escape') {
-        e.preventDefault()
-        onClose()
+      }
+
+      document.addEventListener('keydown', handleKeyDown)
+
+      return () => {
+        document.removeEventListener('keydown', handleKeyDown)
+        document.body.style.overflow = originalOverflow.current
+        wrapElement?.removeAttribute('aria-hidden')
+        focusManager.popAndFocus()
       }
     }
-
-    document.addEventListener('keydown', handleKeyDown)
-    return () => {
-      document.removeEventListener('keydown', handleKeyDown)
-      document.body.style.overflow = originalOverflow.current
-    }
-  }, [isOpen, onClose])
+  }, [isOpen, onClose, isTopModal])
 
   if (!isOpen) return null
 
-  return (
-    <div className="modal-backdrop" role="presentation">
+  const modalContent = (
+    <div
+      className="modal-backdrop"
+      role="presentation"
+      data-modal-id={modalId}
+      data-top-modal={isTopModal ? 'true' : 'false'}
+      style={{ zIndex }}
+    >
       <div
         className={`modal-content ${size}`}
         ref={modalRef}
@@ -113,4 +128,6 @@ export const Modal = ({
       </div>
     </div>
   )
+
+  return createPortal(modalContent, document.body)
 }
