@@ -325,6 +325,7 @@ export default function TestPage() {
       content: (
         <section className={`${styles.section} ${styles.cardListSection}`}>
           <CardList cards={mockData} columns={3} gap={12} />
+          <CardList cards={[]} />
         </section>
       ),
     },
@@ -351,6 +352,7 @@ export default function TestPage() {
               },
             ]}
           />
+          <BoardList items={[]} />
         </section>
       ),
     },
@@ -366,7 +368,7 @@ export default function TestPage() {
           <Checkbox
             label="체크박스3"
             onChange={() => console.log('체크박스3')}
-            checked={true}
+            checked
           />
           <Switch label="스위치" checked={checked} onChange={setChecked} />
         </section>

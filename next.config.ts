@@ -2,7 +2,6 @@ import type { NextConfig } from 'next'
 import path from 'path'
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactStrictMode: true,
   images: {
     remotePatterns: [
@@ -10,12 +9,15 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'picsum.photos',
         port: '',
-        pathname: '/**', // 모든 경로 허용
+        pathname: '/**',
       },
     ],
   },
   sassOptions: {
     includePaths: [path.join(process.cwd(), 'src/styles')],
+  },
+  experimental: {
+    optimizePackageImports: [],
   },
 }
 
