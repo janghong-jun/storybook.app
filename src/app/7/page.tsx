@@ -1,6 +1,7 @@
 'use client'
 
 import DefaultLayout from '@/components/layout/DefaultLayout'
+import { usePageTitle } from '@/hooks/usePageTitle'
 import Image from 'next/image'
 import React from 'react'
 import styles from './pages.module.scss'
@@ -32,6 +33,8 @@ import { DateRangePicker } from '@/components/Form/DateRangePicker'
 import { Input } from '@/components/Form/Input'
 
 export default function TestPage() {
+  usePageTitle('UI 컴포넌트 테스트 – 브랜드명')
+
   const { viewport } = useViewport()
 
   const [alertOpen, setAlertOpen] = useState(false)

@@ -56,10 +56,8 @@
     cursor: default;
     transform: none;
     box-shadow: none;
-    &:hover::after {
-      opacity: 0.25;
-      filter: blur(0.3rem);
-      animation-play-state: paused;
+    &::after {
+      display: none;
     }
   }
 
@@ -70,7 +68,7 @@
 
   // --- 컬러 버전 마다 빛나는 conic-gradient 색상 변경 ---
   &.primary {
-    background: linear-gradient(120deg, #4f46e5, #6366f1);
+    background: #4f46e5;
     color: #fff;
     border-color: rgba(255, 255, 255, 0.08);
 

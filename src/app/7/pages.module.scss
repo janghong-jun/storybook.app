@@ -1,0 +1,116 @@
+/* ===========================================
+   DEMO PAGE STYLES
+   =========================================== */
+
+.demoPage {
+  min-height: 100vh;
+  max-width: 120rem;
+  margin: 0 auto;
+  padding: var(--space-2xl) var(--space-lg);
+}
+
+.demoPage h1 {
+  margin-bottom: var(--space-3xl);
+  padding-bottom: var(--space-lg);
+  border-bottom: 0.2rem solid var(--color-border);
+  font-size: var(--text-3xl);
+  font-weight: 700;
+  text-align: center;
+  color: var(--color-foreground);
+}
+
+.demoPage h4 {
+  font-size: var(--text-lg);
+  font-weight: 600;
+  color: var(--color-foreground);
+}
+
+.accordionTest {
+  > div > div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &:has(.section) {
+      height: auto;
+    }
+    &:has(.datePickerSection),
+    &:has(.selectBoxSection),
+    &:has(.modalSection) {
+      height: 50rem;
+    }
+    &:has(.tooltipSection) {
+      height: 20rem;
+    }
+  } /* Common section styles */
+  .section-base {
+    display: flex;
+    width: 100%;
+    margin-bottom: 0;
+    border: none !important;
+    padding: 0 !important;
+    background: none !important;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-lg);
+    box-shadow: none !important;
+  }
+  .section {
+    @extend .section-base;
+  }
+
+  .sectionRow {
+    @extend .section-base;
+  }
+
+  .sectionRow > * + * {
+    margin-top: 0;
+  }
+}
+.datePickerSection {
+  margin-bottom: auto;
+}
+
+/* Form elements in modal */
+.modalForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    font-weight: 500;
+    color: var(--color-foreground);
+  }
+
+  button[type='submit'] {
+    padding: var(--space-sm) var(--space-lg);
+    border: none;
+    border-radius: var(--radius-md);
+    background: var(--color-primary);
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .demoPage {
+    padding: var(--space-lg) var(--space-md);
+  }
+
+  .sectionRow {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .demoPage h1 {
+    font-size: var(--text-2xl);
+  }
+}
