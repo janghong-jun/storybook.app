@@ -26,7 +26,7 @@ const menuData: MenuItem[] = [
       { label: 'UX Design', href: '6' },
     ],
   },
-  { label: 'Contact', href: '7' },
+  { label: 'Contact', href: 'layout' },
 ]
 
 interface GNBProps {

@@ -190,7 +190,7 @@
 
 .quickLinks {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fill, calc(50% - 0.75rem));
   gap: var(--space-sm);
   list-style: none;
   padding: 0;

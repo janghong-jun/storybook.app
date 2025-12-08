@@ -1,12 +1,9 @@
 'use client'
 
 import DefaultLayout from '@/components/layout/DefaultLayout'
-import { usePageTitle } from '@/hooks/usePageTitle'
 import { useViewport } from '@/contexts/viewPortContext'
 
 export default function HomePage() {
-  usePageTitle('홈페이지 – 브랜드명')
-
   const { viewport } = useViewport()
 
   const viewportLabel =

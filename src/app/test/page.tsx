@@ -1,6 +1,7 @@
 'use client'
 
 import DefaultLayout from '@/components/layout/DefaultLayout'
+import { usePageTitle } from '@/hooks/usePageTitle'
 import Image from 'next/image'
 import React from 'react'
 import styles from './pages.module.scss'
@@ -33,6 +34,7 @@ import { Input } from '@/components/Form/Input'
 
 export default function TestPage() {
   const { viewport } = useViewport()
+  usePageTitle('UI 컴포넌트 테스트')
 
   const [alertOpen, setAlertOpen] = useState(false)
   const [confirmOpen, setConfirmOpen] = useState(false)

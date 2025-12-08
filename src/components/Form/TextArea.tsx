@@ -72,10 +72,10 @@ export const TextArea: React.FC<TextAreaProps> = ({
         </label>
       )}
 
-      <div className={`textarea-field-wrap${error ? ' has-error' : ''}`}>
+      <div className={`textarea-wrap${error ? ' has-error' : ''}`}>
         <textarea
           id={textareaId}
-          className={`textarea-field${error ? ' textarea-error' : ''}`}
+          className={`krds-input${error ? ' textarea-error' : ''}`}
           value={value}
           onChange={onChange}
           aria-invalid={!!error}

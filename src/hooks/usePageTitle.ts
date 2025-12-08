@@ -2,13 +2,14 @@
 
 import { useEffect } from 'react'
 
-const globalDefaultTitle = '내 사이트 이름'
+const globalDefaultTitle = '하이코칭'
 
 export function usePageTitle(title?: string) {
   useEffect(() => {
-    if (title) {
-      document.title = title
-    } else {
+    const pageTitle = title || globalDefaultTitle
+    document.title = pageTitle + ' | ' + globalDefaultTitle
+
+    return () => {
       document.title = globalDefaultTitle
     }
   }, [title])

@@ -16,6 +16,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="description" content="" />
         <link rel="icon" href="/images/favicon.ico" />
+        <title>하이코칭</title>
       </head>
       <body>
         <ViewportProvider>{children}</ViewportProvider>
