@@ -1,6 +1,6 @@
-import type { StorybookConfig } from '@storybook/nextjs-vite'
-import { mergeConfig } from 'vite'
-import viteCompression from 'vite-plugin-compression'
+import type { StorybookConfig } from '@storybook/nextjs-vite';
+import { mergeConfig } from 'vite';
+import viteCompression from 'vite-plugin-compression';
 
 const config: StorybookConfig = {
   stories: [
@@ -48,49 +48,36 @@ const config: StorybookConfig = {
               react: ['react', 'react-dom'],
               swiper: ['swiper'],
               datepicker: ['react-datepicker'],
-              vendors: ['lodash-es', 'date-fns'],
+              vendors: ['date-fns'],
             },
           },
         },
       },
 
-      /**
-       * ✔️ lodash-es import 문제 해결
-       * - alias + optimizeDeps + 제외 세트
-       */
       resolve: {
-        alias: {
-          lodash: 'lodash-es',
-          'lodash-es': 'lodash-es',
-        },
+        alias: {},
       },
 
       optimizeDeps: {
-        include: ['lodash-es'],
-        exclude: ['lodash'], // 충돌 방지
+        include: [],
+        exclude: ['lodash'],
         force: false,
       },
 
       ssr: {
-        noExternal: ['lodash-es'], // SSR 오류 방지
+        noExternal: [],
       },
 
-      /**
-       * ✔️ 빌드 최적화 설정 추가
-       */
       define: {
         'process.env.NODE_ENV': JSON.stringify('production'),
       },
 
       esbuild: {
-        /**
-         * dead-code 제거 + tree-shaking 강제
-         */
         pure: ['console.log', 'console.debug'],
         treeShaking: true,
       },
-    })
+    });
   },
-}
+};
 
-export default config
+export default config;
