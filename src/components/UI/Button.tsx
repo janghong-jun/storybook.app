@@ -4,7 +4,7 @@ export interface ButtonProps {
   /** 버튼에 표시할 텍스트 */
   label: string;
   /** 페이지에서 가장 중요한 액션 버튼인지 여부 */
-  level?: 'primary' | 'secondary' | 'tertiary';
+  level?: 'primary' | 'secondary' | 'tertiary' | 'text';
   /** 버튼 크기 */
   size?: 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
   /** 버튼 클릭 시 호출할 함수 */
@@ -31,7 +31,7 @@ export const Button = ({
   ariaLabel = false,
   ...props
 }: ButtonProps) => {
-  const classes = ['button', size, level];
+  const classes = ['krds-btn', size, level];
   if (className) classes.push(className);
 
   return (

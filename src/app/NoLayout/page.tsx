@@ -1,15 +1,15 @@
-'use client'
+'use client';
 
-import { useViewport } from '@/contexts/viewPortContext'
-import React, { useState } from 'react'
-import { Modal } from '@/components/UI/Modal'
-import { SystemAlert } from '@/components/UI/SystemAlert'
+import { useViewport } from '@/contexts/viewPortContext';
+import React, { useState } from 'react';
+import { Modal } from '@/components/UI/Modal';
+import { SystemAlert } from '@/components/UI/SystemAlert';
 
 export default function NoLayoutPage() {
-  const { viewport } = useViewport()
-  const [openModal, setOpenModal] = useState(false)
-  const [alertOpen, setAlertOpen] = useState(false)
-  const [confirmOpen, setConfirmOpen] = useState(false)
+  const { viewport } = useViewport();
+  const [openModal, setOpenModal] = useState(false);
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
   return (
     <div className={`wrap ${viewport ?? ''}`}>
@@ -18,7 +18,7 @@ export default function NoLayoutPage() {
         <p>이 페이지는 헤더/푸터 없이 표시됩니다.</p>
         <button
           type="button"
-          className="btn "
+          className="krds-btn "
           onClick={() => setOpenModal(true)}
         >
           팝업
@@ -31,7 +31,7 @@ export default function NoLayoutPage() {
           <p>이것은 모달 내용입니다.</p>
           <button
             type="button"
-            className="btn "
+            className="krds-btn "
             onClick={() => setAlertOpen(true)}
           >
             팝업
@@ -40,9 +40,9 @@ export default function NoLayoutPage() {
         <SystemAlert
           visible={alertOpen}
           onClose={() => {
-            setConfirmOpen(true)
-            setOpenModal(true)
-            setAlertOpen(true)
+            setConfirmOpen(true);
+            setOpenModal(true);
+            setAlertOpen(true);
           }}
           title="알림 제목"
           message="이것은 알림 메시지입니다."
@@ -53,20 +53,20 @@ export default function NoLayoutPage() {
           hasConfirm={true}
           hasCancel={true}
           onClose={() => {
-            setConfirmOpen(false)
-            setOpenModal(false)
-            setAlertOpen(false)
+            setConfirmOpen(false);
+            setOpenModal(false);
+            setAlertOpen(false);
           }}
           confirmLabel="삭제"
           cancelLabel="취소"
           onConfirm={() => {
-            setConfirmOpen(false)
+            setConfirmOpen(false);
           }}
           onCancel={() => {
-            setConfirmOpen(false)
+            setConfirmOpen(false);
           }}
         />
       </main>
     </div>
-  )
+  );
 }

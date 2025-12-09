@@ -1,19 +1,19 @@
-import { Card, CardProps } from '@/components/UI/Card'
+import { Card, CardProps } from '@/components/UI/Card';
 
 export interface CardListProps {
   /** 렌더링할 카드 데이터 배열 */
-  cards: CardProps[]
-  /** 추가적인 CSS 클래스 이름 */
-  className?: string
+  cards: CardProps[];
+  /** 커스텀 CSS 클래스 */
+  className?: string;
   /** 한 줄에 표시할 카드의 수 */
-  columns?: number
+  columns?: number;
   /** 카드 사이의 간격 */
-  gap?: number
+  gap?: number;
   /** 화면 크기에 따라 반응형 그리드 적용 여부 */
-  responsive?: boolean
+  responsive?: boolean;
 }
 
-/** Card UI 컴포넌트 */
+/** CardList UI 컴포넌트 */
 export const CardList = ({
   cards,
   columns = 3,
@@ -27,14 +27,14 @@ export const CardList = ({
     className || '',
   ]
     .filter(Boolean)
-    .join(' ')
+    .join(' ');
 
   if (!cards || cards.length === 0) {
     return (
       <div className="card-list__empty" role="status">
         데이터가 없습니다.
       </div>
-    )
+    );
   }
 
   return (
@@ -45,5 +45,5 @@ export const CardList = ({
         </li>
       ))}
     </ul>
-  )
-}
+  );
+};

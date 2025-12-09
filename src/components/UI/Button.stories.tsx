@@ -1,6 +1,6 @@
-import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { fn } from 'storybook/test'
-import { Button } from '@/components/UI/Button'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { fn } from 'storybook/test';
+import { Button } from '@/components/UI/Button';
 
 const meta = {
   title: 'UI/Button',
@@ -14,7 +14,7 @@ const meta = {
     className: { control: 'text' },
     level: {
       control: { type: 'select' },
-      options: ['primary', 'secondary', 'tertiary'],
+      options: ['primary', 'secondary', 'tertiary', 'text'],
       table: { type: { summary: 'string ' } },
     },
     size: {
@@ -25,24 +25,24 @@ const meta = {
     disabled: { control: 'boolean' },
   },
   args: { onClick: fn() },
-} satisfies Meta<typeof Button>
+} satisfies Meta<typeof Button>;
 
-export default meta
-type Story = StoryObj<typeof meta>
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 export const Primary: Story = {
   args: {
     level: 'primary',
     label: 'Button',
   },
-}
+};
 
 export const Secondary: Story = {
   args: {
     level: 'secondary',
     label: 'Button',
   },
-}
+};
 
 export const Tertiary: Story = {
   args: {
@@ -50,7 +50,7 @@ export const Tertiary: Story = {
     label: 'Button',
     level: 'tertiary',
   },
-}
+};
 
 export const XSmall: Story = {
   args: {
@@ -58,35 +58,35 @@ export const XSmall: Story = {
     label: 'Button',
   },
   name: 'X-Small',
-}
+};
 export const Small: Story = {
   args: {
     size: 'small',
     label: 'Button',
   },
-}
+};
 export const Medium: Story = {
   args: {
     size: 'medium',
     label: 'Button',
   },
-}
+};
 export const Large: Story = {
   args: {
     size: 'large',
     label: 'Button',
   },
-}
+};
 export const XLarge: Story = {
   args: {
     size: 'large',
     label: 'Button',
   },
   name: 'X-Large',
-}
+};
 export const Disabled: Story = {
   args: {
     label: 'Button',
     disabled: true,
   },
-}
+};

@@ -1,22 +1,23 @@
 // Modal.tsx
-import React, { useRef, useId, useEffect } from 'react'
-import { createPortal } from 'react-dom'
-import { useModalStack } from '@/hooks/useModalStack'
-import { focusManager } from '@/stores/focusStore'
+import React, { useRef, useId, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { useModalStack } from '@/hooks/useModalStack';
+import { focusManager } from '@/stores/focusStore';
 
 export interface ModalProps {
   /** 모달 열림 상태 */
-  isOpen: boolean
+  isOpen: boolean;
   /** 모달 닫기 이벤트 */
-  onClose: () => void
+  onClose: () => void;
   /** 모달 안에 들어갈 컨텐츠 */
-  children: string | React.ReactNode
+  children: string | React.ReactNode;
   /** 모달 제목 */
-  label?: string
+  label?: string;
   /** 모달 크기 */
-  size?: 'x-small' | 'small' | 'medium' | 'large' | 'x-large'
+  size?: 'x-small' | 'small' | 'medium' | 'large' | 'x-large';
 }
 
+/** Modal UI 컴포넌트 */
 export const Modal = ({
   isOpen,
   onClose,
@@ -24,75 +25,72 @@ export const Modal = ({
   label,
   size = 'medium',
 }: ModalProps) => {
-  const modalRef = useRef<HTMLDivElement>(null)
-  const reactId = useId()
-  const labelId = `modal_label_${reactId}`
-  const originalOverflow = useRef<string>('')
-  const modalId = `modal_${reactId}`
+  const modalRef = useRef<HTMLDivElement>(null);
+  const reactId = useId();
+  const labelId = `modal_label_${reactId}`;
+  const originalOverflow = useRef<string>('');
+  const modalId = `modal_${reactId}`;
 
-  // 모달 스택 관리
-  const { isTopModal, zIndex } = useModalStack(modalId, isOpen)
+  const { isTopModal, zIndex } = useModalStack(modalId, isOpen);
 
   useEffect(() => {
-    const wrapElement = document.querySelector('.wrap') as HTMLElement | null
+    const wrapElement = document.querySelector('.wrap') as HTMLElement | null;
 
     if (isOpen) {
-      if (!modalRef.current) return
+      if (!modalRef.current) return;
 
-      focusManager.push()
+      focusManager.push();
 
-      // 2. body 스크롤 방지 및 aria-hidden 설정
-      originalOverflow.current = document.body.style.overflow
-      document.body.style.overflow = 'hidden'
-      wrapElement?.setAttribute('aria-hidden', 'true')
+      originalOverflow.current = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      wrapElement?.setAttribute('aria-hidden', 'true');
 
-      // 3. 모달로 포커스 이동
-      modalRef.current.focus()
+      modalRef.current.focus();
 
       const focusableEls = modalRef.current.querySelectorAll<HTMLElement>(
         'a[href], button:not([disabled]), textarea:not([disabled]), input:not([disabled]), select:not([disabled]), [tabindex]:not([tabindex="-1"])'
-      )
+      );
 
-      const firstEl = focusableEls[0]
-      const lastEl = focusableEls[focusableEls.length - 1]
+      const firstEl = focusableEls[0];
+      const lastEl = focusableEls[focusableEls.length - 1];
 
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Tab') {
           if (focusableEls.length === 0) {
-            e.preventDefault()
-            return
+            e.preventDefault();
+            return;
           }
           if (e.shiftKey) {
             if (document.activeElement === firstEl) {
-              e.preventDefault()
-              lastEl?.focus()
+              e.preventDefault();
+              lastEl?.focus();
             }
           } else {
             if (document.activeElement === lastEl) {
-              e.preventDefault()
-              firstEl?.focus()
+              e.preventDefault();
+              firstEl?.focus();
             }
           }
         } else if (e.key === 'Escape') {
           if (isTopModal) {
-            e.preventDefault()
-            onClose()
+            e.preventDefault();
+            onClose();
           }
         }
-      }
+      };
 
-      document.addEventListener('keydown', handleKeyDown)
+      document.addEventListener('keydown', handleKeyDown);
 
       return () => {
-        document.removeEventListener('keydown', handleKeyDown)
-        document.body.style.overflow = originalOverflow.current
-        wrapElement?.removeAttribute('aria-hidden')
-        focusManager.popAndFocus()
-      }
+        document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = originalOverflow.current;
+        wrapElement?.removeAttribute('aria-hidden');
+        focusManager.popAndFocus();
+      };
     }
-  }, [isOpen, onClose, isTopModal])
+  }, [isOpen, onClose, isTopModal]);
 
-  if (!isOpen) return null
+  if (!isOpen) return null;
 
   const modalContent = (
     <div
@@ -127,7 +125,7 @@ export const Modal = ({
         </button>
       </div>
     </div>
-  )
+  );
 
-  return createPortal(modalContent, document.body)
-}
+  return createPortal(modalContent, document.body);
+};

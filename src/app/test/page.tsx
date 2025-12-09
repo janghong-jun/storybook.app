@@ -1,65 +1,66 @@
-'use client'
+'use client';
 
-import DefaultLayout from '@/components/layout/DefaultLayout'
-import { usePageTitle } from '@/hooks/usePageTitle'
-import Image from 'next/image'
-import React from 'react'
-import styles from './pages.module.scss'
-import { useState } from 'react'
-import { useViewport } from '@/contexts/viewPortContext'
-import { useLoadingStore } from '@/stores/loadingStore'
+import DefaultLayout from '@/components/layout/DefaultLayout';
+import { usePageTitle } from '@/hooks/usePageTitle';
+import Image from 'next/image';
+import React from 'react';
+import styles from './pages.module.scss';
+import { useState } from 'react';
+import { useViewport } from '@/contexts/viewPortContext';
+import { useLoadingStore } from '@/stores/loadingStore';
 
-import { Button } from '@/components/UI/Button'
-import { Accordion } from '@/components/UI/Accordion'
-import { Tooltip } from '@/components/UI/Tooltip'
-import { Modal } from '@/components/UI/Modal'
-import { SystemAlert } from '@/components/UI/SystemAlert'
-import { Toast } from '@/components/UI/Toast'
-import { Breadcrumb } from '@/components/UI/Breadcrumb'
-import { Pagination } from '@/components/UI/Pagination'
-import { Table } from '@/components/UI/Table'
-import { BoardList } from '@/components/UI/BoardList'
-import { Card } from '@/components/UI/Card'
-import { CardList } from '@/components/UI/CardList'
-import { Divider } from '@/components/UI/Divider'
-import { Tab } from '@/components/UI/Tab'
-import { SwiperComponent } from '@/components/UI/Swiper'
-import { Checkbox } from '@/components/Form/Checkbox'
-import { Switch } from '@/components/Form/Switch'
-import { RadioGroup } from '@/components/Form/RadioGroup'
-import { TextArea } from '@/components/Form/TextArea'
-import { SelectBox } from '@/components/Form/Selectbox'
-import { DateRangePicker } from '@/components/Form/DateRangePicker'
-import { Input } from '@/components/Form/Input'
+import { Button } from '@/components/UI/Button';
+import { Accordion } from '@/components/UI/Accordion';
+import { Tooltip } from '@/components/UI/Tooltip';
+import { Modal } from '@/components/UI/Modal';
+import { SystemAlert } from '@/components/UI/SystemAlert';
+import { Toast } from '@/components/UI/Toast';
+import { Breadcrumb } from '@/components/UI/Breadcrumb';
+import { Pagination } from '@/components/UI/Pagination';
+import { Table } from '@/components/UI/Table';
+import { BoardList } from '@/components/UI/BoardList';
+import { Card } from '@/components/UI/Card';
+import { CardList } from '@/components/UI/CardList';
+import { Divider } from '@/components/UI/Divider';
+import { Tab } from '@/components/UI/Tab';
+import { SwiperComponent } from '@/components/UI/Swiper';
+import { Checkbox } from '@/components/Form/Checkbox';
+import { Switch } from '@/components/Form/Switch';
+import { RadioGroup } from '@/components/Form/RadioGroup';
+import { TextArea } from '@/components/Form/TextArea';
+import { SelectBox } from '@/components/Form/Selectbox';
+import { DateRangePicker } from '@/components/Form/DateRangePicker';
+import { Input } from '@/components/Form/Input';
+import { Grid } from '@/components/UI/Grid';
 
 export default function TestPage() {
-  const { viewport } = useViewport()
-  usePageTitle('UI 컴포넌트 테스트')
+  const { viewport } = useViewport();
+  usePageTitle('UI 컴포넌트 테스트');
 
-  const [alertOpen, setAlertOpen] = useState(false)
-  const [confirmOpen, setConfirmOpen] = useState(false)
-  const [showToast, setShowToast] = useState(false)
-  const [page, setPage] = useState(1)
-  const [checked, setChecked] = useState(false)
-  const [selected, setSelected] = useState<string>()
-  const [value, setValue] = useState<string | number>()
-  const [text, setText] = useState('')
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [page, setPage] = useState(1);
+  const [checked, setChecked] = useState(false);
+  const [selected, setSelected] = useState<string>();
+  const [value, setValue] = useState<string | number>();
+  const [text, setText] = useState('');
 
   // Input 컴포넌트들 상태 관리 추가
-  const [inputValue, setInputValue] = useState('') // 기본 Input 상태
-  const [inputEmail, setInputEmail] = useState('') // 이메일용
-  const [inputPassword, setInputPassword] = useState('')
-  const [inputNumber, setInputNumber] = useState('')
-  const [inputTextDisabled, setInputTextDisabled] = useState('수정 불가')
-  const [inputReadOnly] = useState('읽기만 가능')
-  const [inputLabelHidden, setInputLabelHidden] = useState('')
-  const [inputCheckValue, setInputCheckValue] = useState('')
-  const [inputCheckError, setInputCheckError] = useState('')
+  const [inputValue, setInputValue] = useState(''); // 기본 Input 상태
+  const [inputEmail, setInputEmail] = useState(''); // 이메일용
+  const [inputPassword, setInputPassword] = useState('');
+  const [inputNumber, setInputNumber] = useState('');
+  const [inputTextDisabled, setInputTextDisabled] = useState('수정 불가');
+  const [inputReadOnly] = useState('읽기만 가능');
+  const [inputLabelHidden, setInputLabelHidden] = useState('');
+  const [inputCheckValue, setInputCheckValue] = useState('');
+  const [inputCheckError, setInputCheckError] = useState('');
 
-  const [name, setName] = useState('')
-  const [email, setEmail] = useState('')
-  const [errors, setErrors] = useState({ name: '', email: '' })
-  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [errors, setErrors] = useState({ name: '', email: '' });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const mockData = [
     {
@@ -97,44 +98,44 @@ export default function TestPage() {
       altText: 'SCSS 구조 이미지',
       linkUrl: '/guide/scss',
     },
-  ]
+  ];
 
-  const { show, hide } = useLoadingStore()
+  const { show, hide } = useLoadingStore();
   const handleClick = async () => {
-    show()
+    show();
 
-    await new Promise((r) => setTimeout(r, 1500)) // 예시 딜레이
+    await new Promise((r) => setTimeout(r, 1500)); // 예시 딜레이
 
-    hide()
-  }
+    hide();
+  };
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
+    e.preventDefault();
 
-    const newErrors = { name: '', email: '' }
+    const newErrors = { name: '', email: '' };
 
     if (!name) {
-      newErrors.name = '이름을 입력해주세요'
+      newErrors.name = '이름을 입력해주세요';
     }
 
     if (!email) {
-      newErrors.email = '이메일을 입력해주세요'
+      newErrors.email = '이메일을 입력해주세요';
     } else if (!/\S+@\S+\.\S+/.test(email)) {
-      newErrors.email = '올바른 이메일 형식이 아닙니다'
+      newErrors.email = '올바른 이메일 형식이 아닙니다';
     }
 
-    setErrors(newErrors)
+    setErrors(newErrors);
 
     if (!newErrors.name && !newErrors.email) {
-      console.log('제출 성공!', { name, email })
-      setIsModalOpen(false)
-      resetForm()
+      console.log('제출 성공!', { name, email });
+      setIsModalOpen(false);
+      resetForm();
     }
-  }
+  };
   const resetForm = () => {
-    setName('')
-    setEmail('')
-    setErrors({ name: '', email: '' })
-  }
+    setName('');
+    setEmail('');
+    setErrors({ name: '', email: '' });
+  };
 
   const items = [
     {
@@ -145,7 +146,7 @@ export default function TestPage() {
             label="primary 버튼"
             level="primary"
             onClick={() => {
-              handleClick()
+              handleClick();
             }}
           />
           <Button label="secondary" level="secondary" />
@@ -161,8 +162,8 @@ export default function TestPage() {
           <Modal
             isOpen={isModalOpen}
             onClose={() => {
-              resetForm()
-              setIsModalOpen(false)
+              resetForm();
+              setIsModalOpen(false);
             }}
             label="프로필 설정"
             size="medium"
@@ -206,12 +207,12 @@ export default function TestPage() {
             confirmLabel="삭제"
             cancelLabel="취소"
             onConfirm={() => {
-              console.log('삭제 실행')
-              setConfirmOpen(false)
+              console.log('삭제 실행');
+              setConfirmOpen(false);
             }}
             onCancel={() => {
-              console.log('사용자 취소')
-              setConfirmOpen(false)
+              console.log('사용자 취소');
+              setConfirmOpen(false);
             }}
           />
           <Button label="토스트 열기" onClick={() => setShowToast(true)} />
@@ -536,14 +537,14 @@ export default function TestPage() {
             label="에러 상태(test 입력시 통과)"
             value={inputCheckValue}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-              const val = e.target.value
-              setInputCheckValue(val)
+              const val = e.target.value;
+              setInputCheckValue(val);
               if (val === '') {
-                setInputCheckError('값을 입력하세요')
+                setInputCheckError('값을 입력하세요');
               } else if (val !== 'test') {
-                setInputCheckError('올바른 값을 입력하세요')
+                setInputCheckError('올바른 값을 입력하세요');
               } else {
-                setInputCheckError('')
+                setInputCheckError('');
               }
             }}
             error={inputCheckError}
@@ -661,7 +662,18 @@ export default function TestPage() {
         </section>
       ),
     },
-  ]
+    {
+      title: 'Grid Component',
+      content: (
+        <Grid gap="2rem" columns={2} align="center" justify="center">
+          <div className="grid-item">1</div>
+          <div className="grid-item">2</div>
+          <div className="grid-item">3</div>
+          <div className="grid-item">4</div>
+        </Grid>
+      ),
+    },
+  ];
 
   return (
     <DefaultLayout>
@@ -669,7 +681,6 @@ export default function TestPage() {
         <h2>UI 컴포넌트 테스트</h2>
 
         <div className={styles.section}>
-          <Button label="secondary" />
           <Accordion
             items={items}
             allowMultipleOpen
@@ -680,5 +691,5 @@ export default function TestPage() {
         </div>
       </div>
     </DefaultLayout>
-  )
+  );
 }

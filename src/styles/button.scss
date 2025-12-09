@@ -1,4 +1,4 @@
-.button {
+.krds-btn {
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -157,6 +157,26 @@
   &.x-large {
     padding: var(--space-xl) var(--space-2xl);
     font-size: 1.8rem;
+  }
+
+  &.text {
+    padding: 0 !important;
+    background: none;
+    box-shadow: none;
+    border-radius: 0;
+
+    &:after {
+      display: none;
+    }
+
+    &:hover,
+    &:focus {
+      box-shadow: none;
+    }
+
+    &:focus {
+      text-decoration: underline;
+    }
   }
 }
 

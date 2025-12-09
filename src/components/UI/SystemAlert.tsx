@@ -1,29 +1,46 @@
-import React, { useRef, useId, useEffect } from 'react'
-import { createPortal } from 'react-dom'
-import { useModalStack } from '@/hooks/useModalStack'
-import { focusManager } from '@/stores/focusStore'
+import React, { useRef, useId, useEffect } from 'react';
+import { createPortal } from 'react-dom';
+import { useModalStack } from '@/hooks/useModalStack';
+import { focusManager } from '@/stores/focusStore';
 
+/** Alert 버튼 설정 */
 export interface AlertButton {
-  label: string
-  variant?: 'primary' | 'secondary'
-  onClick?: () => void
+  /** 버튼 텍스트 */
+  label: string;
+  /** 버튼 스타일 variant */
+  variant?: 'primary' | 'secondary';
+  /** 버튼 클릭 이벤트 */
+  onClick?: () => void;
 }
 
 export interface SystemAlertProps {
-  message: string | React.ReactNode
-  title?: string | false
-  type?: 'info' | 'success' | 'warning' | 'error'
-  visible?: boolean
-  onClose?: () => void
-  hasConfirm?: boolean
-  hasCancel?: boolean
-  confirmLabel?: string
-  cancelLabel?: string
-  onConfirm?: () => void
-  onCancel?: () => void
-  buttons?: AlertButton[]
+  /** 알림 메시지 */
+  message: string | React.ReactNode;
+  /** 알림 제목, false로 설정하면 숨김 */
+  title?: string | false;
+  /** 알림 타입 */
+  type?: 'info' | 'success' | 'warning' | 'error';
+  /** 알림 표시 여부 */
+  visible?: boolean;
+  /** 닫기 이벤트 */
+  onClose?: () => void;
+  /** 확인 버튼 표시 여부 */
+  hasConfirm?: boolean;
+  /** 취소 버튼 표시 여부 */
+  hasCancel?: boolean;
+  /** 확인 버튼 라벨 */
+  confirmLabel?: string;
+  /** 취소 버튼 라벨 */
+  cancelLabel?: string;
+  /** 확인 버튼 클릭 이벤트 */
+  onConfirm?: () => void;
+  /** 취소 버튼 클릭 이벤트 */
+  onCancel?: () => void;
+  /** 커스텀 버튼 배열 */
+  buttons?: AlertButton[];
 }
 
+/** SystemAlert UI 컴포넌트 */
 export const SystemAlert: React.FC<SystemAlertProps> = ({
   message,
   title = '알림',
@@ -38,75 +55,72 @@ export const SystemAlert: React.FC<SystemAlertProps> = ({
   onCancel,
   buttons,
 }) => {
-  const alertRef = useRef<HTMLDivElement>(null)
-  const reactId = useId()
-  const titleId = `alert_title_${reactId}`
-  const alertId = `alert_${reactId}`
+  const alertRef = useRef<HTMLDivElement>(null);
+  const reactId = useId();
+  const titleId = `alert_title_${reactId}`;
+  const alertId = `alert_${reactId}`;
 
-  // 얼랏 스택 관리
-  const { isTopModal, zIndex } = useModalStack(alertId, visible || false)
+  const { isTopModal, zIndex } = useModalStack(alertId, visible || false);
 
   useEffect(() => {
-    const wrapElement = document.querySelector('.wrap') as HTMLElement | null
+    const wrapElement = document.querySelector('.wrap') as HTMLElement | null;
 
     if (visible) {
-      focusManager.push()
+      focusManager.push();
 
-      // 2. body 스크롤 방지 및 aria-hidden 설정
-      document.body.style.overflow = 'hidden'
-      wrapElement?.setAttribute('aria-hidden', 'true')
+      document.body.style.overflow = 'hidden';
+      wrapElement?.setAttribute('aria-hidden', 'true');
 
-      // 3. 얼럿으로 포커스 이동
-      requestAnimationFrame(() => alertRef.current?.focus())
+      requestAnimationFrame(() => alertRef.current?.focus());
 
       const focusableEls = alertRef.current?.querySelectorAll<HTMLElement>(
         'a[href], button, textarea, input, select, [tabindex]:not([tabindex="-1"])'
-      )
-      if (!alertRef.current || !focusableEls) return
+      );
+      if (!alertRef.current || !focusableEls) return;
 
-      const focusableArray = [alertRef.current, ...Array.from(focusableEls)]
-      const firstEl = focusableArray[0]
-      const lastEl = focusableArray[focusableArray.length - 1]
+      const focusableArray = [alertRef.current, ...Array.from(focusableEls)];
+      const firstEl = focusableArray[0];
+      const lastEl = focusableArray[focusableArray.length - 1];
 
       const handleKeyDown = (e: KeyboardEvent) => {
         if (e.key === 'Tab') {
           if (e.shiftKey) {
             if (document.activeElement === firstEl) {
-              e.preventDefault()
-              lastEl.focus()
+              e.preventDefault();
+              lastEl.focus();
             }
           } else {
             if (document.activeElement === lastEl) {
-              e.preventDefault()
-              firstEl.focus()
+              e.preventDefault();
+              firstEl.focus();
             }
           }
         } else if (e.key === 'Escape') {
           if (isTopModal) {
-            e.preventDefault()
-            onClose?.()
+            e.preventDefault();
+            onClose?.();
           }
         }
-      }
+      };
 
-      document.addEventListener('keydown', handleKeyDown)
+      document.addEventListener('keydown', handleKeyDown);
 
       return () => {
-        document.removeEventListener('keydown', handleKeyDown)
-        document.body.style.overflow = ''
-        wrapElement?.removeAttribute('aria-hidden')
-        focusManager.popAndFocus()
-      }
+        document.removeEventListener('keydown', handleKeyDown);
+        document.body.style.overflow = '';
+        wrapElement?.removeAttribute('aria-hidden');
+        focusManager.popAndFocus();
+      };
     }
-  }, [visible, onClose, isTopModal])
+  }, [visible, onClose, isTopModal]);
 
-  if (!visible) return null
+  if (!visible) return null;
 
   const renderDefaultButtons = () => (
     <>
       {hasCancel && (
         <button
-          className="btn secondary"
+          className="krds-btn secondary"
           onClick={() => onCancel?.() ?? onClose?.()}
         >
           {cancelLabel}
@@ -115,17 +129,17 @@ export const SystemAlert: React.FC<SystemAlertProps> = ({
 
       {hasConfirm && (
         <button
-          className="btn primary"
+          className="krds-btn primary"
           onClick={() => {
-            if (onConfirm) onConfirm()
-            else onClose?.()
+            if (onConfirm) onConfirm();
+            else onClose?.();
           }}
         >
           {confirmLabel}
         </button>
       )}
     </>
-  )
+  );
 
   const renderCustomButtons = () =>
     buttons?.map((btn, idx) => (
@@ -136,7 +150,7 @@ export const SystemAlert: React.FC<SystemAlertProps> = ({
       >
         {btn.label}
       </button>
-    ))
+    ));
 
   const alertContent = (
     <div
@@ -171,7 +185,7 @@ export const SystemAlert: React.FC<SystemAlertProps> = ({
         </div>
       </div>
     </div>
-  )
+  );
 
-  return createPortal(alertContent, document.body)
-}
+  return createPortal(alertContent, document.body);
+};

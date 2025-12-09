@@ -1,59 +1,57 @@
-.pagination {
+.krds-pagination {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: var(--space-lg) 0;
   gap: var(--space-md);
 
-  &__button {
-    // 페이지 번호 버튼 기본 스타일
-    &:not(.prev):not(.next) {
-      min-width: 3.6rem;
-      height: 3.6rem;
-      padding: 0 var(--space-xs);
-      border: 0.1rem solid rgba(15, 23, 42, 0.08);
-      border-radius: 50%;
-      font-size: var(--text-sm);
-      font-weight: 600;
-      color: var(--color-text-secondary);
-      background: rgba(255, 255, 255, 0.9);
-      box-shadow: 0 0.8rem 1.4rem rgba(15, 23, 42, 0.08);
-      transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease,
-        border-color 0.2s ease;
-      cursor: pointer;
+  .page-link {
+    min-width: 3.6rem;
+    height: 3.6rem;
+    padding: 0 var(--space-xs);
+    border: 0.1rem solid rgba(15, 23, 42, 0.08);
+    border-radius: 50%;
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-secondary);
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 0.8rem 1.4rem rgba(15, 23, 42, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease,
+      border-color 0.2s ease;
+    cursor: pointer;
 
-      &:hover:not(:disabled):not(.is-active),
-      &:focus:not(:disabled):not(.is-active) {
-        border-color: rgba(99, 102, 241, 0.4);
-        color: var(--color-primary);
-        transform: translateY(-0.15rem);
-        box-shadow: var(--shadow-md);
-      }
-
-      &.is-active:hover:not(:disabled),
-      &.is-active:focus {
-        transform: translateY(-0.15rem);
-        box-shadow: 0 1.6rem 2.4rem rgba(59, 130, 246, 0.4);
-      }
-
-      &:disabled {
-        opacity: 0.7;
-        box-shadow: none;
-      }
-
-      &.is-active {
-        border-color: transparent;
-        background: var(--color-primary);
-        box-shadow: 0 1.2rem 2rem rgba(59, 130, 246, 0.3);
-        color: #fff;
-      }
+    &:hover:not(:disabled):not(.active),
+    &:focus:not(:disabled):not(.active) {
+      border-color: rgba(99, 102, 241, 0.4);
+      color: var(--color-primary);
+      transform: translateY(-0.15rem);
+      box-shadow: var(--shadow-md);
     }
 
-    // 이전/다음 버튼 스타일
+    &.active:hover:not(:disabled),
+    &.active:focus {
+      transform: translateY(-0.15rem);
+      box-shadow: 0 1.6rem 2.4rem rgba(59, 130, 246, 0.4);
+    }
+
+    &:disabled {
+      opacity: 0.7;
+      box-shadow: none;
+    }
+
+    &.active {
+      border-color: transparent;
+      background: var(--color-primary);
+      box-shadow: 0 1.2rem 2rem rgba(59, 130, 246, 0.3);
+      color: #fff;
+    }
+  }
+  .page-navi {
     &.prev,
     &.next {
       flex: none;
       display: flex;
+      position: relative;
       align-items: center;
       justify-content: center;
       min-width: 3.6rem;
@@ -66,9 +64,18 @@
       transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease,
         border-color 0.2s ease;
       cursor: pointer;
-      font-size: 2.4rem;
-      font-weight: 500;
-      line-height: 1;
+      &::after {
+        content: '';
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        left: 50%; // 중앙 배치
+        top: 50%;
+        width: 0.6rem;
+        height: 0.6rem;
+        transform: translate(-50%, -50%) rotate(-45deg);
+      }
 
       &:hover:not(:disabled),
       &:focus:not(:disabled) {
@@ -82,10 +89,19 @@
         opacity: 0.7;
         box-shadow: none;
       }
+
+      &.prev::after {
+        border-left: 0.2rem solid currentColor;
+        border-top: 0.2rem solid currentColor;
+      }
+      &.next::after {
+        border-right: 0.2rem solid currentColor;
+        border-bottom: 0.2rem solid currentColor;
+      }
     }
   }
 
-  &__list {
+  .page-links {
     margin: 0;
     padding: 0;
     list-style: none;
@@ -98,7 +114,7 @@
     }
   }
 
-  &__ellipsis {
+  .link-dot {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -114,7 +130,7 @@
 
 /* 모바일 반응형 */
 @media (max-width: 768px) {
-  .pagination {
+  .krds-pagination {
     padding: var(--space-md) 0;
     gap: var(--space-sm);
 

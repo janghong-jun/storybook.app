@@ -1,40 +1,62 @@
-import React from 'react'
-import Link from 'next/link'
+import React from 'react';
+import Link from 'next/link';
 
 export interface BoardItem {
   /** 게시글 제목 */
-  title: string
+  title: string;
   /** 게시글 설명 */
-  description?: string
+  description?: string;
   /** 클릭 시 이동 URL */
-  linkUrl: string
+  linkUrl: string;
   /** a 태그 target 속성 (_blank, _self 등) */
-  target?: '_self' | '_blank' | '_parent' | '_top'
+  target?: '_self' | '_blank' | '_parent' | '_top';
 }
 
 export interface BoardListProps {
-  /** 리스트 아이템 배열 */
-  items: BoardItem[]
+  /**
+   * 게시판 목록에 표시할 아이템 배열
+   *
+   * ```jsx
+   * items = [
+   *   {
+   *    title: '공지사항 1',
+   *    description: '중요한 공지입니다.',
+   *    linkUrl: '/notice/1',
+   *   },
+   *   {
+   *    title: '공지사항 2',
+   *    linkUrl: '/notice/2',
+   *   },
+   *   {
+   *    title: '공지사항 3',
+   *    description: '업데이트 안내',
+   *    linkUrl: '/notice/3'
+   *   }
+   * ]
+   * ```
+   */
+  items: BoardItem[];
 }
 
+/** BoardList UI 컴포넌트 */
 export const BoardList = ({ items = [] }: BoardListProps) => {
   if (!items || items.length === 0) {
     return (
       <div className="board-list__empty" role="status">
         게시글이 없습니다.
       </div>
-    )
+    );
   }
   return (
     <ul className="board-list">
       {items.map((item, index) => {
-        const isExternal = !item.linkUrl.startsWith('/')
+        const isExternal = !item.linkUrl.startsWith('/');
         // 외부 링크 프로토콜 자동 붙이기
         const url = isExternal
           ? item.linkUrl.startsWith('http')
             ? item.linkUrl
             : `https://${item.linkUrl}`
-          : item.linkUrl
+          : item.linkUrl;
 
         return (
           <li key={index} className="board-list__item">
@@ -71,8 +93,8 @@ export const BoardList = ({ items = [] }: BoardListProps) => {
               </Link>
             )}
           </li>
-        )
+        );
       })}
     </ul>
-  )
-}
+  );
+};

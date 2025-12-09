@@ -80,7 +80,7 @@ export const Accordion: React.FC<AccordionProps> = ({
           <button
             type="button"
             onClick={toggleAll}
-            className="button accordion-toggle-all"
+            className="krds-btn accordion-toggle-all"
             aria-pressed={isAllOpen}
           >
             {isAllOpen ? '모두 닫기' : '모두 열기'}

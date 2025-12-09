@@ -1,14 +1,14 @@
-import React, { useState, useRef, useEffect, useId } from 'react'
+import React, { useState, useRef, useEffect, useId } from 'react';
 
 export interface TooltipProps {
   /** 툴팁에 표시할 내용 */
-  content: string | React.ReactNode
+  content: string | React.ReactNode;
   /** 툴팁을 호출한 요소의 레이블 */
-  label: string
+  label: string;
   /** 툴팁 아이콘에 적용할 커스텀 CSS 클래스 (선택) */
-  iconClass?: string
-  /** 커스텀 CSS 클래스 (선택) */
-  className?: string
+  iconClass?: string;
+  /** 커스텀 CSS 클래스 */
+  className?: string;
 }
 
 /** Tooltip UI 컴포넌트 */
@@ -18,31 +18,30 @@ export const Tooltip: React.FC<TooltipProps> = ({
   iconClass,
   className,
 }) => {
-  const [open, setOpen] = useState(false)
-  const tooltipRef = useRef<HTMLDivElement>(null)
+  const [open, setOpen] = useState(false);
+  const tooltipRef = useRef<HTMLDivElement>(null);
 
-  // useId만으로 충분히 고유한 ID 생성 가능
-  const tooltipId = useId()
-  const uniqueId = `tooltip-${tooltipId}`
+  const tooltipId = useId();
+  const uniqueId = `tooltip-${tooltipId}`;
 
   useEffect(() => {
-    const node = tooltipRef.current
+    const node = tooltipRef.current;
     const handleFocusOut = (e: FocusEvent) => {
       if (node && !node.contains(e.relatedTarget as Node)) {
-        setOpen(false)
+        setOpen(false);
       }
-    }
-    node?.addEventListener('focusout', handleFocusOut)
-    return () => node?.removeEventListener('focusout', handleFocusOut)
-  }, [])
+    };
+    node?.addEventListener('focusout', handleFocusOut);
+    return () => node?.removeEventListener('focusout', handleFocusOut);
+  }, []);
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'Escape') {
-      setOpen(false)
+      setOpen(false);
     } else if (e.key === 'Enter' || e.key === ' ') {
-      setOpen(true)
+      setOpen(true);
     }
-  }
+  };
 
   return (
     <div
@@ -87,5 +86,5 @@ export const Tooltip: React.FC<TooltipProps> = ({
           </div>
         ))}
     </div>
-  )
-}
+  );
+};

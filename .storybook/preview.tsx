@@ -1,7 +1,7 @@
-import React, { ReactNode } from 'react'
-import { DocsContainer, DocsContextProps } from '@storybook/addon-docs/blocks'
-import type { Preview } from '@storybook/nextjs-vite'
-import '@/styles/globals.scss'
+import React, { ReactNode } from 'react';
+import { DocsContainer, DocsContextProps } from '@storybook/addon-docs/blocks';
+import type { Preview } from '@storybook/nextjs-vite';
+import '@/styles/globals.scss';
 const preview: Preview = {
   parameters: {
     controls: {
@@ -25,6 +25,7 @@ const preview: Preview = {
             'Card',
             'CardList',
             'Divider',
+            'Grid',
             'Modal',
             'Pagination',
             'Swiper',
@@ -58,8 +59,8 @@ const preview: Preview = {
         children,
         context,
       }: {
-        children: ReactNode
-        context: DocsContextProps
+        children: ReactNode;
+        context: DocsContextProps;
       }) => (
         <DocsContainer {...{ context }}>
           <div className="sb-unstyled">{children}</div>
@@ -67,6 +68,6 @@ const preview: Preview = {
       ),
     },
   },
-}
+};
 
-export default preview
+export default preview;

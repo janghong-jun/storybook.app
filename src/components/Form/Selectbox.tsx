@@ -55,12 +55,10 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   const listRef = useRef<HTMLUListElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // Sync selected value with controlled value
   useEffect(() => {
     setSelected(value);
   }, [value]);
 
-  // Close menu on click outside or focus leaving the component
   useEffect(() => {
     if (!isOpen) return;
     const container = containerRef.current;
@@ -86,7 +84,6 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
     };
   }, [isOpen]);
 
-  // Focus the option when opening
   useEffect(() => {
     if (isOpen && listRef.current && highlightIndex >= 0) {
       const optionNodes =
@@ -111,7 +108,6 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
 
   const closeMenu = () => setIsOpen(false);
 
-  // Button keydown handler (open menu and keyboard navigation for button)
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (disabled) return;
 
@@ -155,7 +151,6 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
     }
   };
 
-  // Option keydown: handle arrow navigation & selection
   const handleOptionKey = (
     e: React.KeyboardEvent<HTMLLIElement>,
     idx: number,

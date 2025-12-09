@@ -1,21 +1,22 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import Link from 'next/link';
+import Image from 'next/image';
 
 export interface CardProps {
   /** 카드 제목 */
-  title: string
+  title: string;
   /** 카드 설명 */
-  description: string
+  description: string;
   /** 이미지 URL */
-  imageUrl?: string
+  imageUrl?: string;
   /** 이미지 alt 텍스트 */
-  altText?: string
+  altText?: string;
   /** 클릭 시 이동 URL */
-  linkUrl: string
+  linkUrl: string;
   /** a 태그 target 속성 (_blank, _self 등) */
-  target?: '_self' | '_blank' | '_parent' | '_top'
+  target?: '_self' | '_blank' | '_parent' | '_top';
 }
 
+/** Card UI 컴포넌트 */
 export const Card = ({
   title,
   description,
@@ -43,12 +44,12 @@ export const Card = ({
         <p className="card__description">{description}</p>
       </div>
     </>
-  )
+  );
 
-  const isExternal = !linkUrl.startsWith('/')
+  const isExternal = !linkUrl.startsWith('/');
 
   if (isExternal) {
-    const url = linkUrl.startsWith('http') ? linkUrl : `https://${linkUrl}`
+    const url = linkUrl.startsWith('http') ? linkUrl : `https://${linkUrl}`;
     return (
       <a
         href={url}
@@ -59,12 +60,12 @@ export const Card = ({
       >
         {content}
       </a>
-    )
+    );
   }
 
   return (
     <Link href={linkUrl} className="card" aria-label={title}>
       {content}
     </Link>
-  )
-}
+  );
+};

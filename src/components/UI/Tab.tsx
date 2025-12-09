@@ -34,11 +34,10 @@ export interface TabProps {
 
 /** Tab UI 컴포넌트 */
 export const Tab = ({ items, className, onChange }: TabProps) => {
-  const [openedTab, setOpenedTab] = useState<number | null>(0); // 실제 열린 탭
+  const [openedTab, setOpenedTab] = useState<number | null>(0);
   const tabGroupId = useId();
   const buttonRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
-  // 렌더링 시 buttonRefs 초기화
   useEffect(() => {
     buttonRefs.current = buttonRefs.current.slice(0, items.length);
   }, [items.length]);
@@ -67,7 +66,7 @@ export const Tab = ({ items, className, onChange }: TabProps) => {
                 buttonRefs.current[idx] = el!;
               }}
               disabled={item.disabled ?? false}
-              className={`tab-trigger${openedTab === idx ? ' is-active' : ''}`}
+              className={`btn-tab${openedTab === idx ? ' is-active' : ''}`}
               onClick={() => handleTabClick(idx)}
               onKeyDown={(e) => {
                 if (e.key === 'ArrowRight') {

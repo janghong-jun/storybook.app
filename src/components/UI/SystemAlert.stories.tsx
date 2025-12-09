@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import type { Meta, StoryObj } from '@storybook/nextjs-vite'
-import { useState } from 'react'
-import { SystemAlert, SystemAlertProps } from '@/components/UI/SystemAlert'
-import { Button } from '@/components/UI/Button'
+import type { Meta, StoryObj } from '@storybook/nextjs-vite';
+import { useState } from 'react';
+import { SystemAlert, SystemAlertProps } from '@/components/UI/SystemAlert';
+import { Button } from '@/components/UI/Button';
 
 const meta: Meta<SystemAlertProps> = {
   title: 'UI/SystemAlert',
@@ -13,24 +13,27 @@ const meta: Meta<SystemAlertProps> = {
     title: {
       control: 'text',
       table: { type: { summary: 'string | false' } },
+      description: '알림 제목, false로 설정하면 숨김',
     },
     message: {
       control: 'object',
       table: { type: { summary: 'string | React.ReactNode' } },
+      description: '알림 메시지',
     },
-    hasConfirm: { control: 'boolean' },
-    hasCancel: { control: 'boolean' },
-    confirmLabel: { control: 'text' },
-    cancelLabel: { control: 'text' },
+    hasConfirm: { control: 'boolean', description: '확인 버튼 표시 여부' },
+    hasCancel: { control: 'boolean', description: '취소 버튼 표시 여부' },
+    confirmLabel: { control: 'text', description: '확인 버튼 라벨' },
+    cancelLabel: { control: 'text', description: '취소 버튼 표시 여부' },
     type: {
       control: { type: 'select' },
+      description: '알림 타입',
       options: ['info', 'success', 'warning', 'error'],
       table: { type: { summary: 'string ' } },
     },
   },
-}
-export default meta
-type Story = StoryObj<SystemAlertProps>
+};
+export default meta;
+type Story = StoryObj<SystemAlertProps>;
 
 // ✅ 기본 알림
 export const Alert: Story = {
@@ -42,7 +45,7 @@ export const Alert: Story = {
     hasCancel: false,
   },
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
     return (
       <>
         <Button label="Alert 열기" onClick={() => setIsOpen(true)} />
@@ -55,9 +58,9 @@ export const Alert: Story = {
           />
         )}
       </>
-    )
+    );
   },
-}
+};
 
 // ✅ Confirm 버튼 2개
 export const Confirm: Story = {
@@ -75,7 +78,7 @@ export const Confirm: Story = {
     cancelLabel: '취소',
   },
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
     return (
       <>
         <Button label="Confirm 열기" onClick={() => setIsOpen(true)} />
@@ -89,9 +92,9 @@ export const Confirm: Story = {
           />
         )}
       </>
-    )
+    );
   },
-}
+};
 
 // ✅ 버튼 없이 단순 알림
 export const NoButtons: Story = {
@@ -102,7 +105,7 @@ export const NoButtons: Story = {
     hasCancel: false,
   },
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
     return (
       <>
         <Button label="Alert 열기" onClick={() => setIsOpen(true)} />
@@ -114,9 +117,9 @@ export const NoButtons: Story = {
           />
         )}
       </>
-    )
+    );
   },
-}
+};
 
 // ✅ 제목 없이 표시
 export const NoTitle: Story = {
@@ -127,7 +130,7 @@ export const NoTitle: Story = {
     hasCancel: false,
   },
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
     return (
       <>
         <Button label="Alert 열기" onClick={() => setIsOpen(true)} />
@@ -140,9 +143,9 @@ export const NoTitle: Story = {
           />
         )}
       </>
-    )
+    );
   },
-}
+};
 
 // ✅ 타입별 아이콘/스타일 테스트
 export const TypeVariants: Story = {
@@ -154,7 +157,7 @@ export const TypeVariants: Story = {
     hasCancel: false,
   },
   render: (args) => {
-    const [isOpen, setIsOpen] = useState(false)
+    const [isOpen, setIsOpen] = useState(false);
     return (
       <>
         <Button label="Alert 열기" onClick={() => setIsOpen(true)} />
@@ -167,6 +170,6 @@ export const TypeVariants: Story = {
           />
         )}
       </>
-    )
+    );
   },
-}
+};

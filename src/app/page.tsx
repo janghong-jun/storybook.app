@@ -1,17 +1,17 @@
-'use client'
+'use client';
 
-import DefaultLayout from '@/components/layout/DefaultLayout'
-import { useViewport } from '@/contexts/viewPortContext'
+import DefaultLayout from '@/components/layout/DefaultLayout';
+import { useViewport } from '@/contexts/viewPortContext';
 
 export default function HomePage() {
-  const { viewport } = useViewport()
+  const { viewport } = useViewport();
 
   const viewportLabel =
     viewport === 'mobile'
       ? '모바일'
       : viewport === 'tablet'
       ? '태블릿'
-      : '데스크탑'
+      : '데스크탑';
   return (
     <DefaultLayout>
       <div className="home">
@@ -33,10 +33,10 @@ export default function HomePage() {
                 모든 디바이스에서 완벽한 경험을 제공합니다.
               </p>
               <div className="hero-actions">
-                <button type="button" className="btn primary large">
+                <button type="button" className="krds-btn primary large">
                   시작하기
                 </button>
-                <button type="button" className="btn secondary large">
+                <button type="button" className="krds-btn secondary large">
                   자세히 보기
                 </button>
               </div>
@@ -157,10 +157,10 @@ export default function HomePage() {
                 심플하고 아름다운 디자인으로 프로젝트의 완성도를 높여보세요.
               </p>
               <div className="cta-actions">
-                <button type="button" className="btn primary large">
+                <button type="button" className="krds-btn primary large">
                   프로젝트 시작하기
                 </button>
-                <button type="button" className="btn ghost large">
+                <button type="button" className="krds-btn ghost large">
                   문의하기
                 </button>
               </div>
@@ -183,5 +183,5 @@ export default function HomePage() {
         </section>
       </div>
     </DefaultLayout>
-  )
+  );
 }
