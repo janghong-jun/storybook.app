@@ -1,24 +1,24 @@
 /* eslint-disable react-hooks/set-state-in-effect */
-import React, { useId, useState, useEffect } from 'react'
+import React, { useId, useState, useEffect } from 'react';
 
 export interface CheckboxProps {
   /** label 텍스트 */
-  label?: string
+  label?: string;
   /** 초기 상태 */
-  checked?: boolean
+  checked?: boolean;
   /** 선택시 호출할 함수 */
-  onChange?: (checked: boolean) => void
-  /**  name 지정 가능 없으면 랜덤 */
-  name?: string
+  onChange?: (checked: boolean) => void;
+  /** name 지정 가능 없으면 랜덤 */
+  name?: string;
   /** label을 화면에 표시할지 여부 */
-  showLabel?: boolean
+  showLabel?: boolean;
   /** 비활성화 여부 */
-  disabled?: boolean
+  disabled?: boolean;
   /** 커스텀 CSS 클래스 */
-  className?: string
+  className?: string;
 }
 
-/** Checkbox UI 컴포넌트 */
+/** Checkbox UI 컴포넌트 (KRDS 표준 준수) */
 export const Checkbox: React.FC<CheckboxProps> = ({
   label,
   checked,
@@ -28,31 +28,34 @@ export const Checkbox: React.FC<CheckboxProps> = ({
   disabled = false,
   className,
 }) => {
-  const id = useId()
-  const chkName = name ?? `chk-${id}`
-  const [internalChecked, setInternalChecked] = useState(checked ?? false)
+  const id = useId();
+  const chkName = name ?? `chk-${id}`;
+  const [internalChecked, setInternalChecked] = useState(checked ?? false);
 
   useEffect(() => {
-    if (checked !== undefined) setInternalChecked(checked)
-  }, [checked])
+    if (checked !== undefined) setInternalChecked(checked);
+  }, [checked]);
 
   const handleChange = (next: boolean) => {
-    if (disabled) return
-    setInternalChecked(next)
-    onChange?.(next)
-  }
+    if (disabled) return;
+    setInternalChecked(next);
+    onChange?.(next);
+  };
 
-  const hasLabel = Boolean(label)
+  const hasLabel = Boolean(label);
 
   // aria-label 규칙 처리
   const ariaLabel = !hasLabel
     ? '선택'
     : !showLabel
     ? `${label} 선택`
-    : undefined
+    : undefined;
 
   return (
-    <div className={`checkbox-item${className ? ` ${className}` : ''}`}>
+    <div
+      className={`krds-form-check${className ? ` ${className}` : ''}`}
+      role="presentation"
+    >
       <input
         type="checkbox"
         id={hasLabel ? id : undefined}
@@ -61,13 +64,17 @@ export const Checkbox: React.FC<CheckboxProps> = ({
         disabled={disabled}
         onChange={(e) => handleChange(e.target.checked)}
         aria-label={ariaLabel}
+        className="krds-form-check-input"
       />
 
       {hasLabel && showLabel && (
-        <label htmlFor={id} className={disabled ? 'disabled' : undefined}>
+        <label
+          htmlFor={id}
+          className={`krds-form-check-label${disabled ? ' disabled' : ''}`}
+        >
           {label}
         </label>
       )}
     </div>
-  )
-}
+  );
+};

@@ -364,17 +364,34 @@ export default function TestPage() {
       title: 'Checkbox Component',
       content: (
         <section className={styles.sectionRow}>
-          <Checkbox label="체크박스" checked={checked} onChange={setChecked} />
-          <Checkbox
-            label="체크박스2"
-            onChange={() => console.log('체크박스2')}
-          />
-          <Checkbox
-            label="체크박스3"
-            onChange={() => console.log('체크박스3')}
-            checked
-          />
-          <Switch label="스위치" checked={checked} onChange={setChecked} />
+          <div className="krds-check-area">
+            <div className="krds-form-check-group chk-row">
+              <Checkbox
+                label="체크박스"
+                checked={checked}
+                onChange={setChecked}
+              />
+              <Checkbox
+                label="체크박스2"
+                onChange={() => console.log('체크박스2')}
+              />
+              <Checkbox
+                label="체크박스3"
+                onChange={() => console.log('체크박스3')}
+                checked
+              />
+            </div>
+          </div>
+          <div className="krds-check-area">
+            <div className="krds-form-check-group chk-column">
+              <Checkbox label="체크박스" />
+              <Checkbox label="체크박스2" />
+              <Checkbox label="체크박스3" disabled />
+            </div>
+          </div>
+          <div style={{ marginRight: 'auto' }}>
+            <Switch label="스위치" checked={checked} onChange={setChecked} />
+          </div>
         </section>
       ),
     },
@@ -387,6 +404,15 @@ export default function TestPage() {
               { label: '옵션1', value: 'option1' },
               { label: '옵션2', value: 'option2' },
             ]}
+            selectedValue={selected}
+            onChange={setSelected}
+          />
+          <RadioGroup
+            options={[
+              { label: '옵션1', value: 'option1' },
+              { label: '옵션2', value: 'option2' },
+            ]}
+            direction
             selectedValue={selected}
             onChange={setSelected}
           />
