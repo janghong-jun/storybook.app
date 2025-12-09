@@ -1,12 +1,12 @@
-'use client'
+'use client';
 
-import React, { useState, useEffect } from 'react'
-import Link from 'next/link'
+import React, { useState, useEffect } from 'react';
+import Link from 'next/link';
 
 interface MenuItem {
-  label: string
-  href?: string
-  children?: MenuItem[]
+  label: string;
+  href?: string;
+  children?: MenuItem[];
 }
 
 const menuData: MenuItem[] = [
@@ -27,92 +27,92 @@ const menuData: MenuItem[] = [
     ],
   },
   { label: 'Contact', href: 'layout' },
-]
+];
 
 interface GNBProps {
-  containerRef?: React.RefObject<HTMLElement | null>
+  containerRef?: React.RefObject<HTMLElement | null>;
 }
 
 const GNB: React.FC<GNBProps> = ({ containerRef }) => {
-  const [isMobile, setIsMobile] = useState(false)
-  const [mobileOpen, setMobileOpen] = useState(false)
-  const [openIndex, setOpenIndex] = useState<number | null>(null)
+  const [isMobile, setIsMobile] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
 
   useEffect(() => {
-    let lastIsMobile: boolean | null = null
+    let lastIsMobile: boolean | null = null;
 
     const handleResize = () => {
-      const mobile = window.innerWidth <= 768
+      const mobile = window.innerWidth <= 768;
       if (mobile !== lastIsMobile) {
-        lastIsMobile = mobile
-        setIsMobile(mobile)
-        setMobileOpen(false)
-        setOpenIndex(null)
+        lastIsMobile = mobile;
+        setIsMobile(mobile);
+        setMobileOpen(false);
+        setOpenIndex(null);
       }
-    }
+    };
 
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [])
+    handleResize();
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   useEffect(() => {
     const closeHandler = () => {
-      setMobileOpen(false)
-      setOpenIndex(null)
-    }
-    window.addEventListener('closeMobileMenu', closeHandler)
-    return () => window.removeEventListener('closeMobileMenu', closeHandler)
-  }, [])
+      setMobileOpen(false);
+      setOpenIndex(null);
+    };
+    window.addEventListener('closeMobileMenu', closeHandler);
+    return () => window.removeEventListener('closeMobileMenu', closeHandler);
+  }, []);
 
   useEffect(() => {
-    if (!mobileOpen) return
+    if (!mobileOpen) return;
 
-    const container = containerRef?.current
-    if (!container) return
+    const container = containerRef?.current;
+    if (!container) return;
 
     const focusableEls = Array.from(
       container.querySelectorAll<HTMLElement>(`
         a[href]:not([tabindex="-1"]),
         button:not([disabled]):not([tabindex="-1"])
       `)
-    ).filter((el) => !el.hasAttribute('hidden'))
+    ).filter((el) => !el.hasAttribute('hidden'));
 
-    if (focusableEls.length === 0) return
+    if (focusableEls.length === 0) return;
 
-    const first = focusableEls[0]
-    const last = focusableEls[focusableEls.length - 1]
+    const first = focusableEls[0];
+    const last = focusableEls[focusableEls.length - 1];
 
-    const timer = setTimeout(() => first.focus(), 0)
+    const timer = setTimeout(() => first.focus(), 0);
 
     const handleTab = (e: KeyboardEvent) => {
-      if (e.key !== 'Tab') return
-      const active = document.activeElement as HTMLElement
-      if (!active) return
+      if (e.key !== 'Tab') return;
+      const active = document.activeElement as HTMLElement;
+      if (!active) return;
 
       if (e.shiftKey) {
         if (active === first) {
-          e.preventDefault()
-          last.focus()
+          e.preventDefault();
+          last.focus();
         }
       } else {
         if (active === last) {
-          e.preventDefault()
-          first.focus()
+          e.preventDefault();
+          first.focus();
         }
       }
-    }
+    };
 
-    document.addEventListener('keydown', handleTab)
-    const originalOverflow = document.body.style.overflow
-    document.body.style.overflow = 'hidden'
+    document.addEventListener('keydown', handleTab);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
 
     return () => {
-      clearTimeout(timer)
-      document.removeEventListener('keydown', handleTab)
-      document.body.style.overflow = originalOverflow
-    }
-  }, [mobileOpen, containerRef])
+      clearTimeout(timer);
+      document.removeEventListener('keydown', handleTab);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [mobileOpen, containerRef]);
 
   const renderMenu = (items: MenuItem[], level = 0) => (
     <ul
@@ -120,14 +120,14 @@ const GNB: React.FC<GNBProps> = ({ containerRef }) => {
       role={level === 0 ? 'menubar' : 'menu'}
     >
       {items.map((item, idx) => {
-        const hasChildren = !!item.children
-        const isOpen = openIndex === idx
+        const hasChildren = !!item.children;
+        const isOpen = openIndex === idx;
 
         return (
           <li
             key={idx}
             className={`menu-item ${hasChildren ? 'has-children' : ''} ${
-              isOpen ? 'open' : ''
+              isOpen ? 'is-open' : ''
             }`}
           >
             {hasChildren ? (
@@ -137,7 +137,7 @@ const GNB: React.FC<GNBProps> = ({ containerRef }) => {
                 aria-haspopup="true"
                 aria-expanded={isOpen}
                 onClick={() => {
-                  setOpenIndex((prev) => (prev === idx ? null : idx))
+                  setOpenIndex((prev) => (prev === idx ? null : idx));
                 }}
               >
                 {item.label}
@@ -146,8 +146,8 @@ const GNB: React.FC<GNBProps> = ({ containerRef }) => {
               <Link
                 href={item.href ?? '#'}
                 onClick={() => {
-                  setMobileOpen(false)
-                  document.body.scrollTo({ top: 0 })
+                  setMobileOpen(false);
+                  document.body.scrollTo({ top: 0 });
                 }}
               >
                 {item.label}
@@ -160,8 +160,8 @@ const GNB: React.FC<GNBProps> = ({ containerRef }) => {
                     <Link
                       href={child.href ?? '#'}
                       onClick={() => {
-                        setMobileOpen(false)
-                        document.body.scrollTo({ top: 0 })
+                        setMobileOpen(false);
+                        document.body.scrollTo({ top: 0 });
                       }}
                     >
                       {child.label}
@@ -171,10 +171,10 @@ const GNB: React.FC<GNBProps> = ({ containerRef }) => {
               </ul>
             )}
           </li>
-        )
+        );
       })}
     </ul>
-  )
+  );
 
   return (
     <nav className="gnb">
@@ -185,8 +185,8 @@ const GNB: React.FC<GNBProps> = ({ containerRef }) => {
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
             onClick={() => {
-              setMobileOpen(!mobileOpen)
-              setOpenIndex(null)
+              setMobileOpen(!mobileOpen);
+              setOpenIndex(null);
             }}
           >
             {mobileOpen ? '✕' : '☰'}
@@ -205,7 +205,7 @@ const GNB: React.FC<GNBProps> = ({ containerRef }) => {
         )}
       </div>
     </nav>
-  )
-}
+  );
+};
 
-export default GNB
+export default GNB;

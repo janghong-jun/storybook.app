@@ -12,7 +12,7 @@
     transition: border-color 0.2s ease, box-shadow 0.2s ease,
       transform 0.2s ease;
 
-    &.active {
+    &.is-active {
       box-shadow: 0 1.6rem 3rem rgba(79, 70, 229, 0.15);
     }
   }
@@ -58,7 +58,7 @@
     }
   }
 
-  .accordion-item.active .accordion-trigger {
+  .accordion-item.is-active .accordion-trigger {
     &::before {
       content: '';
       position: absolute;
@@ -91,7 +91,7 @@
     padding: var(--space-xl) 0;
   }
 
-  .accordion-item.active .accordion-content {
+  .accordion-item.is-active .accordion-content {
     max-height: 100rem;
     opacity: 1;
   }

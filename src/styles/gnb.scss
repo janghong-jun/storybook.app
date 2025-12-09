@@ -74,7 +74,7 @@
         }
       }
     }
-    &.open > .sub-menu,
+    &.is-open > .sub-menu,
     &:hover > .sub-menu {
       opacity: 1;
       pointer-events: auto;

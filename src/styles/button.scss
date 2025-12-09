@@ -1,4 +1,4 @@
-.btn {
+.button {
   position: relative;
   overflow: hidden;
   isolation: isolate;
@@ -170,7 +170,7 @@
 }
 
 @media (max-width: 768px) {
-  .btn {
+  .button {
     width: 100%;
   }
 }

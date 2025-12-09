@@ -1,8 +1,8 @@
-import React, { useState, useRef, useEffect } from 'react'
+import React, { useState, useRef, useEffect } from 'react';
 
 export interface SelectOption {
-  label: string
-  value: string | number
+  label: string;
+  value: string | number;
 }
 
 export interface SelectBoxProps {
@@ -20,20 +20,20 @@ export interface SelectBoxProps {
    * ]
    * ```
    */
-  options: SelectOption[]
-  value?: string | number
+  options: SelectOption[];
+  value?: string | number;
   /** placeholder 값 */
-  placeholder?: string
+  placeholder?: string;
   /** 변경시 호출할 함수 */
-  onChange?: (value: string | number) => void
+  onChange?: (value: string | number) => void;
   /** 비활성화 여부 */
-  disabled?: boolean
+  disabled?: boolean;
   /** 커스텀 CSS 클래스 */
-  className?: string
+  className?: string;
   /** custom 셀렉트박스 사용여부 */
-  custom?: boolean
+  custom?: boolean;
   /** 접근성 및 시각적 label */
-  label?: string
+  label?: string;
 }
 
 /** Selectbox UI 컴포넌트 */
@@ -47,113 +47,113 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
   custom = true,
   label,
 }) => {
-  const [isOpen, setIsOpen] = useState(false)
-  const [selected, setSelected] = useState(value)
-  const [highlightIndex, setHighlightIndex] = useState(-1)
+  const [isOpen, setIsOpen] = useState(false);
+  const [selected, setSelected] = useState(value);
+  const [highlightIndex, setHighlightIndex] = useState(-1);
 
-  const buttonRef = useRef<HTMLButtonElement>(null)
-  const listRef = useRef<HTMLUListElement>(null)
-  const containerRef = useRef<HTMLDivElement>(null)
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const listRef = useRef<HTMLUListElement>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
 
   // Sync selected value with controlled value
   useEffect(() => {
-    setSelected(value)
-  }, [value])
+    setSelected(value);
+  }, [value]);
 
   // Close menu on click outside or focus leaving the component
   useEffect(() => {
-    if (!isOpen) return
-    const container = containerRef.current
+    if (!isOpen) return;
+    const container = containerRef.current;
     const handleClick = (e: MouseEvent) => {
       if (!container?.contains(e.target as Node)) {
-        setIsOpen(false)
+        setIsOpen(false);
       }
-    }
+    };
     const handleFocusOut = (e: FocusEvent) => {
       // Close if focus moves outside of container
       if (!container?.contains(e.relatedTarget as Node)) {
-        setIsOpen(false)
+        setIsOpen(false);
       }
-    }
-    document.addEventListener('mousedown', handleClick)
-    container?.addEventListener('focusout', handleFocusOut as EventListener)
+    };
+    document.addEventListener('mousedown', handleClick);
+    container?.addEventListener('focusout', handleFocusOut as EventListener);
     return () => {
-      document.removeEventListener('mousedown', handleClick)
+      document.removeEventListener('mousedown', handleClick);
       container?.removeEventListener(
         'focusout',
         handleFocusOut as EventListener
-      )
-    }
-  }, [isOpen])
+      );
+    };
+  }, [isOpen]);
 
   // Focus the option when opening
   useEffect(() => {
     if (isOpen && listRef.current && highlightIndex >= 0) {
       const optionNodes =
-        listRef.current.querySelectorAll<HTMLLIElement>('li[role="option"]')
-      optionNodes[highlightIndex]?.focus()
+        listRef.current.querySelectorAll<HTMLLIElement>('li[role="option"]');
+      optionNodes[highlightIndex]?.focus();
     }
-  }, [isOpen, highlightIndex])
+  }, [isOpen, highlightIndex]);
 
   const handleSelect = (val: string | number) => {
-    setSelected(val)
-    onChange?.(val)
-    setIsOpen(false)
-    buttonRef.current?.focus()
-  }
+    setSelected(val);
+    onChange?.(val);
+    setIsOpen(false);
+    buttonRef.current?.focus();
+  };
 
   const openMenu = () => {
-    if (disabled) return
-    setIsOpen(true)
-    const idx = options.findIndex((o) => o.value === selected)
-    setHighlightIndex(idx >= 0 ? idx : 0)
-  }
+    if (disabled) return;
+    setIsOpen(true);
+    const idx = options.findIndex((o) => o.value === selected);
+    setHighlightIndex(idx >= 0 ? idx : 0);
+  };
 
-  const closeMenu = () => setIsOpen(false)
+  const closeMenu = () => setIsOpen(false);
 
   // Button keydown handler (open menu and keyboard navigation for button)
   const handleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
-    if (disabled) return
+    if (disabled) return;
 
     switch (e.key) {
       case 'Enter':
       case ' ':
-        e.preventDefault()
-        if (!isOpen) openMenu()
+        e.preventDefault();
+        if (!isOpen) openMenu();
         else if (highlightIndex >= 0)
-          handleSelect(options[highlightIndex].value)
-        break
+          handleSelect(options[highlightIndex].value);
+        break;
 
       case 'ArrowDown':
-        e.preventDefault()
+        e.preventDefault();
         if (!isOpen) {
-          openMenu()
+          openMenu();
         } else {
           setHighlightIndex((prev) => {
-            const next = Math.min(prev + 1, options.length - 1)
-            return next
-          })
+            const next = Math.min(prev + 1, options.length - 1);
+            return next;
+          });
         }
-        break
+        break;
 
       case 'ArrowUp':
-        e.preventDefault()
+        e.preventDefault();
         if (!isOpen) {
-          openMenu()
+          openMenu();
         } else {
-          setHighlightIndex((prev) => Math.max(prev - 1, 0))
+          setHighlightIndex((prev) => Math.max(prev - 1, 0));
         }
-        break
+        break;
 
       case 'Escape':
-        closeMenu()
-        break
+        closeMenu();
+        break;
 
       case 'Tab':
-        closeMenu()
-        break
+        closeMenu();
+        break;
     }
-  }
+  };
 
   // Option keydown: handle arrow navigation & selection
   const handleOptionKey = (
@@ -164,42 +164,42 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
     switch (e.key) {
       case 'Enter':
       case ' ':
-        e.preventDefault()
-        handleSelect(opt.value)
-        break
+        e.preventDefault();
+        handleSelect(opt.value);
+        break;
       case 'ArrowDown': {
-        e.preventDefault()
-        const nextIdx = Math.min(idx + 1, options.length - 1)
-        setHighlightIndex(nextIdx)
-        const list = listRef.current
+        e.preventDefault();
+        const nextIdx = Math.min(idx + 1, options.length - 1);
+        setHighlightIndex(nextIdx);
+        const list = listRef.current;
         if (list) {
           const optionNodes =
-            list.querySelectorAll<HTMLLIElement>('li[role="option"]')
-          optionNodes[nextIdx]?.focus()
+            list.querySelectorAll<HTMLLIElement>('li[role="option"]');
+          optionNodes[nextIdx]?.focus();
         }
-        break
+        break;
       }
       case 'ArrowUp': {
-        e.preventDefault()
-        const prevIdx = Math.max(idx - 1, 0)
-        setHighlightIndex(prevIdx)
-        const list = listRef.current
+        e.preventDefault();
+        const prevIdx = Math.max(idx - 1, 0);
+        setHighlightIndex(prevIdx);
+        const list = listRef.current;
         if (list) {
           const optionNodes =
-            list.querySelectorAll<HTMLLIElement>('li[role="option"]')
-          optionNodes[prevIdx]?.focus()
+            list.querySelectorAll<HTMLLIElement>('li[role="option"]');
+          optionNodes[prevIdx]?.focus();
         }
-        break
+        break;
       }
       case 'Escape':
-        closeMenu()
-        buttonRef.current?.focus()
-        break
+        closeMenu();
+        buttonRef.current?.focus();
+        break;
       case 'Tab':
-        closeMenu()
-        break
+        closeMenu();
+        break;
     }
-  }
+  };
 
   // ==============================
   // 기본 native select
@@ -226,7 +226,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
           ))}
         </select>
       </div>
-    )
+    );
   }
 
   // ==============================
@@ -243,8 +243,8 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
       <button
         type="button"
         ref={buttonRef}
-        className={`selectbox-button ${selected ? '' : 'placeholder'} ${
-          isOpen ? 'open' : ''
+        className={`selectbox-button${selected ? '' : ' placeholder'}${
+          isOpen ? ' is-open' : ''
         }`}
         disabled={disabled}
         aria-haspopup="listbox"
@@ -282,7 +282,7 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
               aria-selected={selected === opt.value}
               className={[
                 'selectbox-option',
-                selected === opt.value ? 'selected' : '',
+                selected === opt.value ? 'is-selected' : '',
                 highlightIndex === i ? 'highlight' : '',
               ]
                 .filter(Boolean)
@@ -299,5 +299,5 @@ export const SelectBox: React.FC<SelectBoxProps> = ({
         </ul>
       )}
     </div>
-  )
-}
+  );
+};

@@ -1,18 +1,18 @@
-import { useEffect, useRef, useState, ReactNode } from 'react'
+import { useEffect, useRef, useState, ReactNode } from 'react';
 
 interface ToastProps {
   /** 토스트 내용 */
-  message: string | ReactNode
+  message: string | ReactNode;
   /** 토스트 노출 여부  */
-  visible: boolean
+  visible: boolean;
   /** 토스트 노출 시간 (기본 3000ms) */
-  duration?: number
+  duration?: number;
   /** 토스트를 트리거한 요소의 ref */
-  triggerRef?: React.RefObject<HTMLElement>
+  triggerRef?: React.RefObject<HTMLElement>;
   /** 커스텀 CSS 클래스 */
-  className?: string
+  className?: string;
   /** 닫기 콜백 */
-  onClose: () => void
+  onClose: () => void;
 }
 
 /** Toast UI 컴포넌트 */
@@ -24,47 +24,47 @@ export function Toast({
   className,
   triggerRef,
 }: ToastProps) {
-  const toastRef = useRef<HTMLDivElement>(null)
-  const [show, setShow] = useState(false)
+  const toastRef = useRef<HTMLDivElement>(null);
+  const [show, setShow] = useState(false);
 
   useEffect(() => {
     if (visible) {
-      setTimeout(() => setShow(true), 0)
+      setTimeout(() => setShow(true), 0);
     }
-  }, [visible])
+  }, [visible]);
 
   useEffect(() => {
-    if (!show) return
-    const toastEl = toastRef.current
-    if (!toastEl) return
+    if (!show) return;
+    const toastEl = toastRef.current;
+    if (!toastEl) return;
 
-    const previousFocus = document.activeElement as HTMLElement | null
-    const triggerEl = triggerRef?.current
-    requestAnimationFrame(() => toastEl.focus())
+    const previousFocus = document.activeElement as HTMLElement | null;
+    const triggerEl = triggerRef?.current;
+    requestAnimationFrame(() => toastEl.focus());
 
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') {
-        toastEl.classList.add('hide')
-        setTimeout(onClose, duration / 10)
+        toastEl.classList.add('is-hidden');
+        setTimeout(onClose, duration / 10);
       }
-    }
+    };
 
-    toastEl.addEventListener('keydown', handleKeyDown)
+    toastEl.addEventListener('keydown', handleKeyDown);
 
     const timer = setTimeout(() => {
-      toastEl.classList.add('hide')
-      setTimeout(onClose, duration / 10)
-    }, duration)
+      toastEl.classList.add('is-hidden');
+      setTimeout(onClose, duration / 10);
+    }, duration);
 
     return () => {
-      clearTimeout(timer)
-      toastEl.removeEventListener('keydown', handleKeyDown)
-      if (triggerEl) triggerEl.focus()
-      else previousFocus?.focus()
-    }
-  }, [show, duration, onClose, triggerRef])
+      clearTimeout(timer);
+      toastEl.removeEventListener('keydown', handleKeyDown);
+      if (triggerEl) triggerEl.focus();
+      else previousFocus?.focus();
+    };
+  }, [show, duration, onClose, triggerRef]);
 
-  if (!visible && !show) return null
+  if (!visible && !show) return null;
 
   return (
     <div
@@ -74,12 +74,12 @@ export function Toast({
       aria-live="polite"
       tabIndex={0}
       onAnimationEnd={(e) => {
-        if ((e.target as HTMLElement).classList.contains('hide')) {
-          setShow(false)
+        if ((e.target as HTMLElement).classList.contains('is-hidden')) {
+          setShow(false);
         }
       }}
     >
       {message}
     </div>
-  )
+  );
 }

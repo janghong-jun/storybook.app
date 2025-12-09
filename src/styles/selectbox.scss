@@ -52,7 +52,7 @@
     pointer-events: none;
   }
 
-  &.open {
+  &.is-open {
     box-shadow: 0 0 0 0.4rem rgba(99, 102, 241, 0.15);
     outline: 0.2rem solid var(--color-primary);
     outline-offset: 0.2rem;
@@ -96,7 +96,7 @@
     color: var(--color-primary);
   }
 
-  &.selected {
+  &.is-selected {
     font-weight: var(--font-weight-semibold);
     background: rgba(99, 102, 241, 0.15);
     color: var(--color-primary);
